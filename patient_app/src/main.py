@@ -10,39 +10,69 @@ def main(page: ft.Page):
         bgcolor=ft.Colors.with_opacity(0.04, ft.CupertinoColors.SYSTEM_BACKGROUND),
     )
 
+    # Remove the patient_data dictionary and use client_storage instead
+    STORAGE_PREFIX = "agedap.medical."
+
     def services_page():
         return [ 
             ft.Text("Services")
-            # meter que solo se ponga en enabled el botón si hay una clave guardada en config
         ]
     
     def my_data_page():
+        def load_body():
+            if not page.client_storage.contains_key(f"{STORAGE_PREFIX}name"):
+                return ft.Text("For downloading your data first configure your Hospital and Patient ID")
+            else:
+                print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                print(page.client_storage.get(f"{STORAGE_PREFIX}date_of_birth"))
+                return ft.Column(
+                    [
+                        ft.Row([
+                            ft.Text("Name:"), 
+                            ft.TextField(value=page.client_storage.get(f"{STORAGE_PREFIX}name"), read_only=True)
+                        ]),
+                        ft.Row([
+                            ft.Text("Date of Birth:"), 
+                            ft.TextField(value=page.client_storage.get(f"{STORAGE_PREFIX}date_of_birth"), read_only=True)
+                        ]),
+                        ft.Row([
+                            ft.Text("Gender:"), 
+                            ft.TextField(value=page.client_storage.get(f"{STORAGE_PREFIX}gender"), read_only=True)
+                        ]),
+                    ]
+                )
+
         return [
-            ft.Text("My Data")
-            # meter que solo se descarguen los datos si hay un link rollo lo del apirest del anterior en config (hacer el paripe con el anterior)
+            ft.Text("My Data"),
+            load_body()
         ]
     
     def config_page():
-        patient_id_field = ft.TextField(hint_text="e.g. 80219")
+        patient_id_field = ft.TextField(hint_text="e.g. 792264", value="792264")
         hospital_dropdown = ft.Dropdown(
             width=200,
             options=[
-            ft.dropdown.Option("HAPI Sandbox"),
-            ft.dropdown.Option("Other")
+                ft.dropdown.Option("HAPI Sandbox"),
+                ft.dropdown.Option("Other")
             ]
         )
         single_use_key_field = ft.TextField(hint_text="Type here...")
 
         def save_button_click(e):
-            print(patient_id_field.value)
             url = None
             if(hospital_dropdown.value == "HAPI Sandbox"):
                 url = 'https://hapi.fhir.org/baseR5'
 
-            retreived_patient = fhir_utils.get_patient_data(int(patient_id_field.value), url)
+            patient = fhir_utils.get_patient_data(int(patient_id_field.value), url)
 
-            # TODO use db_utils.save_patient() when OMOPCMD is configured
-            # temporally using direct variables
+            # Store patient data in client storage
+            patient_data = fhir_utils.get_patient_data_dict(patient)
+            page.client_storage.set(f"{STORAGE_PREFIX}name", patient_data["name"])
+            page.client_storage.set(f"{STORAGE_PREFIX}date_of_birth", patient_data["date_of_birth"].isoformat())
+            page.client_storage.set(f"{STORAGE_PREFIX}gender", patient_data["gender"])
+
+            # Update the view
+            on_navigation_change(ft.ControlEvent(page.navigation_bar, 1))
 
         return [
             ft.Text("Single Use Key:"),
@@ -55,6 +85,7 @@ def main(page: ft.Page):
             ft.ElevatedButton(text="Save", on_click=save_button_click)
         ]
 
+    # Rest of your code remains the same
     content = ft.Column()
 
     for elem in config_page():
@@ -89,9 +120,7 @@ def main(page: ft.Page):
     page.add(
         ft.SafeArea(
             ft.Column(
-                [
-                    content,
-                ],
+                [content],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             )

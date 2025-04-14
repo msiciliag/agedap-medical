@@ -1,5 +1,7 @@
+import fhir.resources.humanname
 import requests
 import json
+import fhir.resources
 from fhir.resources.patient import Patient
 
 def get_patient_data(patient_id: str, base_url: str):
@@ -16,7 +18,6 @@ def get_patient_data(patient_id: str, base_url: str):
         response.raise_for_status()
 
         patient_data = response.json()
-        print(patient_data)
         patient = Patient.model_validate(patient_data)
 
         print(f"Successfully fetched and parsed Patient ID: {patient.id}")
@@ -38,17 +39,19 @@ def get_patient_data(patient_id: str, base_url: str):
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
         return None
-    
-if __name__ == "__main__":
-    retrieved_patient = get_patient_data(80219, 'https://hapi.fhir.org/baseR5')
 
-    if retrieved_patient:
-        print(f"\nRetrieved Patient Object ID: {retrieved_patient.id}")
+#temporal function for storing data 
+def get_patient_data_dict(patient):
+    patient_data = {
+        "name": None,
+        "date_of_birth": None,
+        "gender": None,
+    }
 
-        # <<< --- ADD THE SAVING STEP HERE --- >>
-        # <<< --- END SAVING STEP --- >>>
+    if patient:
+        patient_data["name"] = " ".join([name.given[0] + " " + name.family for name in patient.name]) if patient.name else None
+        patient_data["date_of_birth"] = patient.birthDate if hasattr(patient, 'birthDate') else None
+        patient_data["gender"] = patient.gender if hasattr(patient, 'gender') else None
+    print(patient_data)
 
-        # Now you can continue with your app's logic using the retrieved_patient object
-        # ...
-    else:
-        print("\nFailed to retrieve patient data. Cannot save.")
+    return patient_data
