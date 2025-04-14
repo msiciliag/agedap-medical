@@ -1,33 +1,32 @@
 # import flet as ft
 import flet as ft
-import fhir_utils  # Assuming fhir_utils.py exists and works as before
+import fhir_utils  
 from datetime import date
 
-# Define the storage prefix globally for consistency
+
 STORAGE_PREFIX = "agedap.medical."
-# Define keys for client storage
 CONFIG_DONE_KEY = f"{STORAGE_PREFIX}config_done"
 NAME_KEY = f"{STORAGE_PREFIX}name"
 DOB_KEY = f"{STORAGE_PREFIX}date_of_birth"
 GENDER_KEY = f"{STORAGE_PREFIX}gender"
 SESSION_PATIENT_ID_KEY = f"{STORAGE_PREFIX}session_patient_id"
 
-# --- Define User-to-ID Mapping ---
+
 USER_PATIENT_IDS = {
     "alice": "758718",
-    "john": "35552"
+    "john": "35552",
 }
 
-# Define the default Hospital URL
+
 DEFAULT_HOSPITAL_URL = 'https://hapi.fhir.org/baseR5'
 DEFAULT_HOSPITAL_NAME = "HAPI Sandbox"
 
 
 def main(page: ft.Page):
     page.title = "External Medical Service"
-    page.adaptive = True # Keep adaptive for native look/feel
+    page.adaptive = True 
 
-    # --- Clear storage keys on startup ---
+
     print("Clearing stored keys on startup...")
     keys_to_clear = [
         CONFIG_DONE_KEY, NAME_KEY, DOB_KEY, GENDER_KEY,
@@ -37,18 +36,15 @@ def main(page: ft.Page):
         if page.client_storage.contains_key(key):
             page.client_storage.remove(key)
     print("Keys cleared.")
-    # --- End clearing storage ---
 
-    # --- Set window size and properties ---
+
     page.window_width = 390
     page.window_height = 844
     page.window_resizable = False
     page.window_maximizable = False
-    # --- End window settings ---
 
 
-    # --- Page Content Building Functions ---
-    # (build_services_page_content, build_my_data_page_content, build_config_page_content remain the same)
+
     def build_services_page_content():
         """Builds the content controls for the Services page."""
         return [
@@ -178,12 +174,8 @@ def main(page: ft.Page):
             save_button,
             status_text,
             ft.Container(height=20),
-            # Cancel button is functionally removed now as config is always initial
-            ft.Container() # Empty container where Cancel button was
+            ft.Container()
         ]
-
-
-    # --- View Building Functions ---
 
     def build_login_view():
         """Builds the Patient Selection View."""
@@ -198,7 +190,7 @@ def main(page: ft.Page):
         for name, patient_id in USER_PATIENT_IDS.items():
             current_id = patient_id
             tile = ft.ListTile(
-                leading=ft.Icon(ft.Icons.PERSON_OUTLINE),
+                leading=ft.Icon(ft.Icons.ACCOUNT_CIRCLE_OUTLINED), 
                 title=ft.Text(name.capitalize()),
                 subtitle=ft.Text(f"ID: {patient_id}"),
                 hover_color=ft.Colors.with_opacity(0.1, ft.Colors.PRIMARY),
@@ -218,10 +210,14 @@ def main(page: ft.Page):
         return ft.View(
             "/login",
             [
-                ft.AppBar(title=ft.Text("Log in"), bgcolor=ft.Colors.SURFACE_TINT),
+
+                ft.AppBar(title=ft.Text("Select Patient"), bgcolor=ft.Colors.SURFACE_TINT),
                 ft.Column(
                     [
-                        ft.Text("Select your account to continue:", size=16, weight=ft.FontWeight.W_500),
+
+                        ft.Icon(name=ft.Icons.MEDICAL_INFORMATION_OUTLINED, size=100, color=ft.Colors.PRIMARY), 
+                        ft.Container(height=10),
+                        ft.Text("Select patient profile:", size=16, weight=ft.FontWeight.W_500),
                         ft.Divider(height=20),
                         patient_content,
                     ],
@@ -235,6 +231,7 @@ def main(page: ft.Page):
             vertical_alignment=ft.MainAxisAlignment.CENTER,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         )
+
 
 
     def build_config_view(is_initial_setup=False):
@@ -334,6 +331,9 @@ def main(page: ft.Page):
             ),
         )
 
+
+
+
     def route_change(route):
         """Handles navigation between different application views."""
         print(f"Route changed to: {page.route}")
@@ -373,10 +373,12 @@ def main(page: ft.Page):
             page.go(top_view.route)
 
 
+
     page.on_route_change = route_change
     page.on_view_pop = view_pop
 
     print("App starting, navigating to /login.")
     page.go("/login")
+
 
 ft.app(target=main)
