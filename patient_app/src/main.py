@@ -10,7 +10,6 @@ def main(page: ft.Page):
         bgcolor=ft.Colors.with_opacity(0.04, ft.CupertinoColors.SYSTEM_BACKGROUND),
     )
 
-    # Remove the patient_data dictionary and use client_storage instead
     STORAGE_PREFIX = "agedap.medical."
 
     def services_page():
@@ -71,9 +70,6 @@ def main(page: ft.Page):
             page.client_storage.set(f"{STORAGE_PREFIX}date_of_birth", patient_data["date_of_birth"].isoformat())
             page.client_storage.set(f"{STORAGE_PREFIX}gender", patient_data["gender"])
 
-            # Update the view
-            on_navigation_change(ft.ControlEvent(page.navigation_bar, 1))
-
         return [
             ft.Text("Single Use Key:"),
             single_use_key_field,
@@ -88,7 +84,7 @@ def main(page: ft.Page):
     # Rest of your code remains the same
     content = ft.Column()
 
-    for elem in config_page():
+    for elem in my_data_page():
         content.controls.append(elem)
 
     def on_navigation_change(e):
@@ -110,7 +106,7 @@ def main(page: ft.Page):
             ft.NavigationBarDestination(icon=ft.Icons.PERSON, label="My Data"),
             ft.NavigationBarDestination(icon=ft.Icons.SETTINGS, label="Configuration"),
         ],
-        selected_index=2,
+        selected_index=1,
         on_change=on_navigation_change,
         border=ft.Border(
             top=ft.BorderSide(color=ft.CupertinoColors.SYSTEM_GREY2, width=0)
