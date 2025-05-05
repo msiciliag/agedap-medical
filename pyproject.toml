@@ -3,9 +3,13 @@ name = "agedap-medical"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.11"
 dependencies = [
+    "concrete-ml",
     "fhir-resources>=8.0.0",
+    "flask>=3.1.0",
     "flet>=0.27.6",
+    "numpy",
     "requests>=2.32.3",
+    "ucimlrepo"
 ]
