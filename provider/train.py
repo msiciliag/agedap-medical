@@ -1,20 +1,24 @@
 '''
 This script trains a Random Forest Classifier model using datasets from the UCI Machine Learning Repository
-and saves it as a FHE Model. It supports multiple datasets by parameterizing the dataset ID and output directory.
+and saves it as a FHE Model. It reads dataset parameters from a YAML configuration file.
 '''
 
+import yaml
 from concrete.ml.sklearn import RandomForestClassifier
 from concrete.ml.deployment import FHEModelDev
 from ucimlrepo import fetch_ucirepo
 from sklearn.preprocessing import LabelEncoder
+import os
 
 def load_data(dataset_id):
     """Fetch and preprocess the dataset."""
     uci_ds = fetch_ucirepo(id=dataset_id)
     X = uci_ds.data.features
+    X = X.astype(float)
     y = uci_ds.data.targets
     le = LabelEncoder()
     y = le.fit_transform(y.values.ravel())
+    y = y.astype(int)
     return X, y
 
 def train_model(X, y, n_estimators=10, max_depth=5):
@@ -35,18 +39,22 @@ def train_and_save(dataset_id, output_directory, n_estimators=10, max_depth=5):
     model = train_model(X, y, n_estimators, max_depth)
     save_fhe_model(model, output_directory)
 
+def load_config(config_path):
+    """Load dataset configuration from a YAML file."""
+    with open(config_path, 'r') as file:
+        return yaml.safe_load(file)
+
 if __name__ == "__main__":
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    config_path = os.path.join(script_dir, "training_config.yaml")
+    config = load_config(config_path)
 
-    train_and_save(
-        dataset_id=17,  # Breast Cancer Wisconsin (Diagnostic) ds
-        output_directory='/tmp/breast_cancer_fhe_files/',
-        n_estimators=10,
-        max_depth=5
-    )
-
-    train_and_save(
-        dataset_id=891,  # CDC Diabetes Health Indicators ds
-        output_directory='/tmp/diabetes_fhe_files/',
-        n_estimators=10,
-        max_depth=5
-    )
+    for dataset in config["datasets"]:
+        print(f"Training model for dataset {dataset['dataset_id']}...")
+        train_and_save(
+            dataset_id=dataset["dataset_id"],
+            output_directory=dataset["output_directory"],
+            n_estimators=dataset["n_estimators"],
+            max_depth=dataset["max_depth"]
+        )
+        print(f"Model for dataset {dataset['dataset_id']} saved to {dataset['output_directory']}.")
