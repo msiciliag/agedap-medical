@@ -39,12 +39,29 @@ def main(page: ft.Page):
     page.window_maximizable = False
 
     def build_services_page_content():
-        name = page.client_storage.get(NAME_KEY) or "User"
-        return [
-            ft.Text(f"Welcome {name}", size=24, weight=ft.FontWeight.BOLD),
-            ft.Text("There are no private AI services available at the moment for you.")
+        def handle_service_click(service_name):
+            page.go(f"/service/{service_name}")
+
+        services = [
+            {"name": "Breast Cancer Screening", "description": "AI-assisted mammogram analysis."},
+            {"name": "Diabetes Risk Assessment", "description": "Predicting diabetes risk using patient data."},
         ]
 
+        service_tiles = [
+            ft.ListTile(
+            leading=ft.Icon(ft.Icons.HEALTH_AND_SAFETY),
+            title=ft.Text(service["name"], weight=ft.FontWeight.BOLD),
+            subtitle=ft.Text(service["description"]),
+            on_click=lambda _, s=service["name"]: handle_service_click(s)
+            )
+            for service in services
+        ]
+
+        return [
+            ft.Text("Available AI Services", size=24, weight=ft.FontWeight.BOLD),
+            ft.Column(service_tiles, spacing=10)
+        ]
+    
     def build_my_data_page_content():
         if not page.client_storage.get(CONFIG_DONE_KEY):
              session_patient_id = page.client_storage.get(SESSION_PATIENT_ID_KEY) or "Unknown"

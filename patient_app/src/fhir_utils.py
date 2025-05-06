@@ -1,7 +1,6 @@
 import fhir.resources.humanname
 import requests
 import json
-import fhir.resources
 from fhir.resources.patient import Patient
 
 def get_patient_data(patient_id: str, base_url: str):

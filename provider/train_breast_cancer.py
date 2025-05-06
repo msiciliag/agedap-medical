@@ -1,5 +1,6 @@
 '''
-This script trains Random Forest Classifier model and saves it as a FHE Model.
+This script trains Random Forest Classifier model using Breast Cancer Wisconsin (Diagnostic) 
+dataset from UCI Machine Learning Repository and saves it as a FHE Model.
 '''
 
 from concrete.ml.sklearn import RandomForestClassifier
@@ -7,7 +8,7 @@ from concrete.ml.deployment import FHEModelDev
 from ucimlrepo import fetch_ucirepo
 from sklearn.preprocessing import LabelEncoder
 
-fhe_directory = '/tmp/fhe_client_server_files/'
+fhe_directory = '/tmp/breast_cancer_fhe_files/'
 
 model = RandomForestClassifier(n_estimators=10, max_depth=5)
 

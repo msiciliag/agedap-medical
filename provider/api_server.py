@@ -66,13 +66,7 @@ def get_info():
                 "key": "measurement_source_value",
                 "value": "value_as_number"
             }
-        },
-        "fhe_evaluation_keys":{
-            "key1": "value1",
-            "key2": "value2"
-        },
-        "prediction_endpoint": "/predict",
-        "prediction_method": "POST"
+        }
     }
     return jsonify(metadata)
 

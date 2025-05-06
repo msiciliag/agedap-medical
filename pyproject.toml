@@ -11,5 +11,5 @@ dependencies = [
     "flet>=0.27.6",
     "numpy",
     "requests>=2.32.3",
-    "ucimlrepo"
+    "ucimlrepo",
 ]
