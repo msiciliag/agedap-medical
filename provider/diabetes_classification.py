@@ -10,7 +10,7 @@ class DiabetesClassification(AIServiceEndpoint):
         metadata = {
             "omop_requirements": {
                 "required_measurements_by_source_value": [
-                    "glucose_level", "age", "bmi", # etc.
+                    "glucose_level", "age", "bmi", #TODO completar lista
                 ],
                 "query_hint": "Retrieve measurements where measurement_concept_id = 1 and measurement_source_value is in the list above.",
                 "expected_input_format": {
@@ -39,3 +39,7 @@ class DiabetesClassification(AIServiceEndpoint):
         except Exception as e:
             self.app.logger.error(f"Prediction error: {e}", exc_info=True)
             return jsonify({"error": f"An internal server error occurred: {e}"}), 500
+
+if __name__ == "__main__":
+    app = DiabetesClassification().app
+    app.run(host='0.0.0.0', port=5001, debug=False)

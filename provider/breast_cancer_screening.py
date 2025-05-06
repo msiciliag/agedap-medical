@@ -68,6 +68,5 @@ class BreastCancerScreening(AIServiceEndpoint):
             return jsonify({"error": f"An internal server error occurred: {e}"}), 500
 
 if __name__ == "__main__":
-    # Initialize the server
     app = BreastCancerScreening().app
     app.run(host='0.0.0.0', port=5001, debug=False)

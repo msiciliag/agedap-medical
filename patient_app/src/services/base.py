@@ -1,7 +1,20 @@
-class AIService:
-    def __init__(self, name: str, description: str):
-        self.name = name
-        self.description = description
+import requests
 
-    def run(self, patient_data: dict) -> dict:
-        raise NotImplementedError("Each service must implement the run method.")
+class APIClient:
+    def __init__(self, base_url):
+        self.base_url = base_url
+
+    def get_info(self):
+        response = requests.get(f"{self.base_url}/info")
+        response.raise_for_status()
+        return response.json()
+
+    def predict(self, data, eval_keys):
+        files = {
+            'encrypted_data': ('encrypted_data.bin', data, 'application/octet-stream'),
+            'evaluation_keys': ('evaluation_keys.bin', eval_keys, 'application/octet-stream')
+        }
+        response = requests.post(f"{self.base_url}/predict", files=files)
+        response.raise_for_status()
+        return response.content
+    
