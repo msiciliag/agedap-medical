@@ -33,6 +33,19 @@ class BaseClient:
             return metadata
         raise ValueError("Unexpected response format from server.")
     
+    def request_additional_info(self):
+        """
+        Request additional information from the server about the model and its requirements.
+
+        :return: Model requirements and metadata.
+        :raises ValueError: If the response format is unexpected.
+        """
+        response = requests.get(f"{self.base_url}/get_additional_service_info")
+        response.raise_for_status()
+        metadata = response.json()
+        return metadata
+    
+
     def request_prediction(self, X_new):
         """
         Encrypt data, send it to the server, and decrypt the response.

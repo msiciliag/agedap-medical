@@ -2,42 +2,39 @@ import flet as ft
 from datetime import date
 from app_config import (
     CONFIG_DONE_KEY, NAME_KEY, DOB_KEY, GENDER_KEY, SESSION_PATIENT_ID_KEY,
-    APP_LEVEL_STORAGE_KEYS, SERVICE_ENDPOINTS
+    APP_LEVEL_STORAGE_KEYS, SERVICE_CONFIGS
 )
-import requests
+from api_client.base_client import BaseClient
 
 def build_services_page_content(page: ft.Page):
     service_tiles = []
-    for service_type, endpoint in SERVICE_ENDPOINTS.items():
-        service_name = service_type  # Default name
-        description = "Could not load service information."  # Default description
-
+    for service_key, service_details in SERVICE_CONFIGS.items():
+        service_name = service_key
+        description = "Could not load service information." 
         try:
-            # Add a timeout to the request, e.g., 5 seconds
-            response = requests.get(endpoint, timeout=5)
-            response.raise_for_status()  # Raises HTTPError for bad responses (4XX or 5XX)
-            info = response.json()      # Raises JSONDecodeError if not JSON
             
-            service_name = info.get("service_name", service_type)
-            description = info.get("description", "No description provided.")
-
-        except requests.exceptions.Timeout:
-            description = f"Error: Timeout connecting to {service_type} service."
-        except requests.exceptions.HTTPError as e:
-            description = f"Error: {service_type} service returned HTTP {e.response.status_code}."
-        except requests.exceptions.RequestException as e: # Catches other network errors (DNS failure, connection refused, etc.)
-            description = f"Error: Could not connect to {service_type} service. {e}"
-        except ValueError:  # Catches JSONDecodeError if response.json() fails
-            description = f"Error: Invalid response format from {service_type} service."
-        
-        service_tiles.append(
-            ft.ListTile(
-                leading=ft.Icon(ft.Icons.HEALTH_AND_SAFETY),
-                title=ft.Text(service_name, weight=ft.FontWeight.BOLD),
-                subtitle=ft.Text(description),
-                on_click=lambda _, st=service_type: page.go(f"/service/{st}")
+            client = BaseClient(
+                service_details["url"],
+                fhe_directory=service_details["fhe_directory"],
+                key_directory=service_details["key_directory"]
             )
-        )
+            info = client.request_additional_info()
+            service_name = info.get("service_name", service_key)
+            description = info.get("description", "No description provided.")  
+            service_tiles.append(
+                ft.ListTile(
+                    leading=ft.Icon(ft.Icons.HEALTH_AND_SAFETY),
+                    title=ft.Text(service_name, weight=ft.FontWeight.BOLD),
+                    subtitle=ft.Text(description),
+                    on_click=lambda _, st=service_key: page.go(f"/service/{st}")
+                )
+            )
+        except ValueError:  
+            description = f"Error: Invalid response format from {service_key} service."
+        except Exception as e:
+            print(f"An unexpected error occurred with {service_key} service: {e}, possibly due to network issues or service unavailability.")
+            description = f"Error: An unexpected issue occurred with {service_key} service, possibly due to network issues or service unavailability."
+        
 
     return [
         ft.Text("Available AI Services", size=24, weight=ft.FontWeight.BOLD),

@@ -24,7 +24,7 @@ HOSPITAL_LIST = {
     "Hospital Universitario 12 de Octubre": 'https://hapi.fhir.org/baseR5',
 }
 
-SERVICE_ENDPOINTS = {
-    "breast_cancer": "http://localhost:5001/get_additional_service_info",
-    "diabetes": "http://localhost:5002/get_additional_service_info",
+SERVICE_CONFIGS = {
+    "breast_cancer": {"url": "http://localhost:5001/", "fhe_directory": "/tmp/breast_cancer_fhe_files/", "key_directory": "/tmp/keys_client_fhe/"},
+    "diabetes": {"url": "http://localhost:5002/", "fhe_directory": "/tmp/diabetes_fhe_files/", "key_directory": "/tmp/keys_client_fhe/"},
 }
