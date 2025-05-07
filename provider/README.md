@@ -6,7 +6,7 @@ This directory contains the components responsible for training, managing, and s
 For training and starting the service servers use:
 
 ```bash
-uv run start_all.py
+uv run provider/start_all.py
 ```
 
 This scripts takes the configuration specified in **`training_config.yaml`**. The default content of this file defines two models: one for breast cancer screening and another for diabetes probability prediction.
