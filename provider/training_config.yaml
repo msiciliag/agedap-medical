@@ -1,9 +1,16 @@
 datasets:
-  - dataset_id: 17
-    output_directory: "/tmp/breast_cancer_fhe_files/"
+  - dataset_id: 17 
+    output_directory: "/tmp/breast_cancer_fhe_files/" 
     n_estimators: 10
     max_depth: 5
-  - dataset_id: 891
-    output_directory: "/tmp/diabetes_fhe_files/"
-    n_estimators: 10
-    max_depth: 5
+    service_name: "Breast Cancer Screening"
+    server_script: "provider/services/breast_cancer_screening_server.py" 
+    server_port: 5001
+
+  - dataset_id: 891 
+    output_directory: "/tmp/diabetes_fhe_files/" 
+    n_estimators: 15
+    max_depth: 7
+    service_name: "Diabetes Classification"
+    server_script: "provider/services/diabetes_classification_server.py" 
+    server_port: 5002

@@ -1,5 +1,3 @@
-# app_config.py
-
 STORAGE_PREFIX = "agedap.medical."
 CONFIG_DONE_KEY = f"{STORAGE_PREFIX}config_done"
 NAME_KEY = f"{STORAGE_PREFIX}name"
@@ -9,8 +7,8 @@ SESSION_PATIENT_ID_KEY = f"{STORAGE_PREFIX}session_patient_id"
 SESSION_HOSPITAL_URL_KEY = f"{STORAGE_PREFIX}hospital_url"
 SESSION_HOSPITAL_NAME_KEY = f"{STORAGE_PREFIX}hospital_name"
 
-# Comprehensive list of keys managed by the app for client_storage
-# Useful for clearing storage on logout or initial app start.
+# comprehensive list of keys managed by the app for client_storage
+# used for clearing storage on logout or initial app start.
 APP_LEVEL_STORAGE_KEYS = [
     CONFIG_DONE_KEY, NAME_KEY, DOB_KEY, GENDER_KEY,
     SESSION_PATIENT_ID_KEY, SESSION_HOSPITAL_URL_KEY, SESSION_HOSPITAL_NAME_KEY
@@ -24,4 +22,9 @@ USER_PATIENT_IDS = {
 HOSPITAL_LIST = {
     "Hospital Universitario Ramón Y Cajal": 'https://hapi.fhir.org/baseR5',
     "Hospital Universitario 12 de Octubre": 'https://hapi.fhir.org/baseR5',
+}
+
+SERVICE_ENDPOINTS = {
+    "breast_cancer": "http://localhost:5001/get_additional_service_info",
+    "diabetes": "http://localhost:5002/get_additional_service_info",
 }

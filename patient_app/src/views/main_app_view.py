@@ -2,32 +2,48 @@ import flet as ft
 from datetime import date
 from app_config import (
     CONFIG_DONE_KEY, NAME_KEY, DOB_KEY, GENDER_KEY, SESSION_PATIENT_ID_KEY,
-    APP_LEVEL_STORAGE_KEYS
+    APP_LEVEL_STORAGE_KEYS, SERVICE_ENDPOINTS
 )
+import requests
 
 def build_services_page_content(page: ft.Page):
-    def handle_service_click(service_name):
-        page.go(f"/service/{service_name}")
+    service_tiles = []
+    for service_type, endpoint in SERVICE_ENDPOINTS.items():
+        service_name = service_type  # Default name
+        description = "Could not load service information."  # Default description
 
-    services = [
-        {"name": "Breast Cancer Screening", "description": "AI-assisted mammogram analysis."},
-        {"name": "Diabetes Risk Assessment", "description": "Predicting diabetes risk using patient data."},
-    ]
+        try:
+            # Add a timeout to the request, e.g., 5 seconds
+            response = requests.get(endpoint, timeout=5)
+            response.raise_for_status()  # Raises HTTPError for bad responses (4XX or 5XX)
+            info = response.json()      # Raises JSONDecodeError if not JSON
+            
+            service_name = info.get("service_name", service_type)
+            description = info.get("description", "No description provided.")
 
-    service_tiles = [
-        ft.ListTile(
-            leading=ft.Icon(ft.Icons.HEALTH_AND_SAFETY),
-            title=ft.Text(service["name"], weight=ft.FontWeight.BOLD),
-            subtitle=ft.Text(service["description"]),
-            on_click=lambda _, s=service["name"]: handle_service_click(s)
+        except requests.exceptions.Timeout:
+            description = f"Error: Timeout connecting to {service_type} service."
+        except requests.exceptions.HTTPError as e:
+            description = f"Error: {service_type} service returned HTTP {e.response.status_code}."
+        except requests.exceptions.RequestException as e: # Catches other network errors (DNS failure, connection refused, etc.)
+            description = f"Error: Could not connect to {service_type} service. {e}"
+        except ValueError:  # Catches JSONDecodeError if response.json() fails
+            description = f"Error: Invalid response format from {service_type} service."
+        
+        service_tiles.append(
+            ft.ListTile(
+                leading=ft.Icon(ft.Icons.HEALTH_AND_SAFETY),
+                title=ft.Text(service_name, weight=ft.FontWeight.BOLD),
+                subtitle=ft.Text(description),
+                on_click=lambda _, st=service_type: page.go(f"/service/{st}")
+            )
         )
-        for service in services
-    ]
 
     return [
         ft.Text("Available AI Services", size=24, weight=ft.FontWeight.BOLD),
         ft.Column(service_tiles, spacing=10)
     ]
+
 
 def build_my_data_page_content(page: ft.Page): 
     if not page.client_storage.get(CONFIG_DONE_KEY):

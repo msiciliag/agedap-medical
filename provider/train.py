@@ -43,18 +43,3 @@ def load_config(config_path):
     """Load dataset configuration from a YAML file."""
     with open(config_path, 'r') as file:
         return yaml.safe_load(file)
-
-if __name__ == "__main__":
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    config_path = os.path.join(script_dir, "training_config.yaml")
-    config = load_config(config_path)
-
-    for dataset in config["datasets"]:
-        print(f"Training model for dataset {dataset['dataset_id']}...")
-        train_and_save(
-            dataset_id=dataset["dataset_id"],
-            output_directory=dataset["output_directory"],
-            n_estimators=dataset["n_estimators"],
-            max_depth=dataset["max_depth"]
-        )
-        print(f"Model for dataset {dataset['dataset_id']} saved to {dataset['output_directory']}.")

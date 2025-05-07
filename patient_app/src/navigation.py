@@ -3,6 +3,7 @@ from app_config import CONFIG_DONE_KEY, SESSION_PATIENT_ID_KEY
 from views.login_view import build_login_view
 from views.config_view import build_config_view
 from views.main_app_view import build_main_app_view
+from views.service_view import build_dynamic_service_view
 
 def route_change_handler(page: ft.Page, route_str: str):
     print(f"Route change triggered. Current page.route: {page.route}, requested route_str: {route_str}")
@@ -25,7 +26,7 @@ def route_change_handler(page: ft.Page, route_str: str):
             print("Redirect: /config/update needs patient ID and prior config, going to /login")
             if page.route != "/login": page.go("/login")
             return
-        page.views.append(build_main_app_view(page))
+        page.views.append(build_main_app_view(page)) 
         page.views.append(build_config_view(page, view_route="/config/update", is_initial_setup=False))
     elif route_str == "/main":
         config_done = page.client_storage.get(CONFIG_DONE_KEY)
@@ -37,10 +38,25 @@ def route_change_handler(page: ft.Page, route_str: str):
             return
         page.views.append(build_main_app_view(page))
     elif route_str.startswith("/service/"):
-        print(f"Notice: Service route {route_str} hit. No specific view defined. Defaulting to login page if no other match.")
-        if page.route != "/login": page.go("/login") 
-        return
-    else: # Unknown route
+        config_done = page.client_storage.get(CONFIG_DONE_KEY)
+        patient_selected = page.client_storage.contains_key(SESSION_PATIENT_ID_KEY)
+        if not config_done or not patient_selected:
+            redirect_route = "/config/initial" if patient_selected else "/login"
+            print(f"Redirect: {route_str} needs config and patient, going to {redirect_route}")
+            if page.route != redirect_route: page.go(redirect_route)
+            return
+
+        parts = route_str.split("/")
+        if len(parts) == 3 and parts[1] == "service":
+            service_type = parts[2]
+            page.views.append(build_main_app_view(page)) 
+            page.views.append(build_dynamic_service_view(page, service_type))
+        else:
+            print(f"Malformed service route: {route_str}. Forcing navigation to /main.")
+            page.views.append(build_main_app_view(page))
+            if page.route != "/main": page.go("/main") 
+            return
+    else: 
         print(f"Unknown route: {route_str}. Forcing navigation to /login.")
         if page.route != "/login":
             page.go("/login")
@@ -52,7 +68,6 @@ def route_change_handler(page: ft.Page, route_str: str):
         page.update()
     else:
         print(f"Views unchanged by route_change or routes are the same. Stack: {[v.route for v in page.views if hasattr(v, 'route')]}")
-
 
 def view_pop_handler(page: ft.Page, view_popped_event: ft.ViewPopEvent): 
     page.views.pop()
