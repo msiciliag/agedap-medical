@@ -2,6 +2,15 @@
 
 This directory contains the components responsible for training, managing, and serving the AI models used within the Agedap Medical application. These models are designed to be compatible with ConcreteML library, which uses Fully Homomorphic Encryption (FHE) for secure predictions.
 
+## Quickstart
+For training and starting the service servers use:
+
+```bash
+uv run start_all.py
+```
+
+This scripts takes the configuration specified in **`training_config.yaml`**. The default content of this file defines two models: one for breast cancer screening and another for diabetes probability prediction.
+
 ## Directory Structure
 
 ```
@@ -20,9 +29,9 @@ provider/
 -   **`services/`**: Contains the individual Flask-based server applications for each AI model.
     -   `base_service.py`: Provides a common structure and utilities for all AI service endpoints, including loading FHE models and defining common API routes like `/get_additional_service_info` and `/get_omop_requirements`.
     -   Each `*_server.py` file (e.g., `breast_cancer_screening_server.py`) implements a specific AI service, inheriting from `AIServiceEndpoint` in `base_service.py`. It loads its corresponding FHE model and exposes prediction endpoints.
--   **`start_all.py`**: A management script located at the project root that:
-    - Checks whether the required FHE model artifacts exist.
-    - Invokes `provider/train.py` to train and save any missing models.
+-   **`start_all.py`**: A management script that takes `training_config.yaml` as an input and:
+    - Checks whether the required FHE model artifacts specified in the configuration file exists.
+    - Invokes `provider/train.py` to train and save any missing models following the parameters and dataset specifications in the yaml file.
     - Starts all configured Flask-based AI service endpoints, each running on its specified port.
 -   **`training_config.yaml`**: A YAML configuration file that defines parameters for training various models. For each model, it specifies:
     -   `dataset_id`: The ID of the dataset from the UCI Machine Learning Repository.
@@ -35,18 +44,20 @@ provider/
 
 ## Model Training
 
-Models are trained using the `train.py` script, which reads its configuration from `training_config.yaml`.
+Models are trained using the `train.py` script, which reads its configuration from `training_config.yaml`. If needed, you can train the models by your own:
 
-1.  **Configure `training_config.yaml`**: Define the datasets, model parameters, output directories, and server details for each model you want to train.
+1.  **Configure `training_config.yaml`**: Define the datasets, model parameters, output directories, and details for each model you want to train.
 2.  **Run `train.py`**:
     ```bash
-    python provider/train.py
+    uv run train.py
     ```
-    This will fetch the data, train the model(s), and save the FHE model artifacts (including `server.zip`, `client.zip`, etc.) to the respective `output_directory` specified in the configuration.
+    This will fetch the data, train the model(s), and save the ConcreteML FHE model artifacts to the respective `output_directory` specified in the configuration.
+
 > [!TIP]
-> For saving a model again, firstly you have to clear the artifacts already generated e.g.
+> For saving a model again, you have to clear the artifacts already generated beforehand e.g.
 >```bash
->sudo rm -r /tmp/breast_cancer_fhe_files/ /tmp/diabetes_fhe_files/
+>sudo rm -r /tmp/breast_cancer_fhe_files/ 
+>sudo rm -r /tmp/diabetes_fhe_files/
 >```
 
 ## Running the AI Services
@@ -55,26 +66,14 @@ The AI services are Flask applications that load the pre-trained FHE models and 
 
 Each service can be run individually:
 ```bash
-python provider/services/breast_cancer_screening_server.py
-python provider/services/diabetes_prediction_server.py
-# etc.
+uv run provider/services/breast_cancer_screening_server.py
+uv run provider/services/diabetes_prediction_server.py
 ```
 
-Alternatively, a script like `start_all.py` (located in the project root `/root/agedap-medical/`) can be used to:
-1.  Check if models defined in `provider/training_config.yaml` exist in their `output_directory`.
-2.  Train any missing models using `provider/train.py`.
-3.  Start all configured Flask servers in the background.
-
-Refer to the `start_all.py` script and the main project README for more details on orchestrating these services.
-
-## FHE Model Artifacts
-
-The `train.py` script, using `concrete-ml`, generates FHE model artifacts in the specified `output_directory`. These typically include:
--   `server.zip`: Contains the FHE evaluation keys and the compiled model for the server-side.
--   `client.zip`: Contains the FHE encryption/decryption keys and client-side specifications.
--   Other metadata files.
-
-The Flask servers in the `services/` directory load the `server.zip` to perform FHE predictions.
+Or you can start all services running `start_all.py` to run them in the background.
+```bash
+uv run start_all.py
+```
 
 ## Adding a New AI Service
 
@@ -82,7 +81,7 @@ The Flask servers in the `services/` directory load the `server.zip` to perform 
 2.  **Update `training_config.yaml`**: Add a new entry for your service, specifying its `dataset_id`, `output_directory`, model hyperparameters, `server_script` path, and `server_port`.
 3.  **Create Server Script**: In the `provider/services/` directory, create a new Python script for your service (e.g., `new_service_server.py`).
     -   This script should define a class that inherits from `AIServiceEndpoint` (from `base_service.py`).
-    -   Implement any service-specific logic.
+    -   Define `get_omop_requirements()` with the corresponding OMOP CMD scheme needed and `get_additional_service_info()` with the information you want to show to the consumer.
     -   Ensure it initializes with the correct `service_name`, `model_display_name`, and `fhe_directory`.
-4.  **Train the Model**: Run `python provider/train.py` or let `start_all.py` handle it. This will generate the FHE model in the specified `output_directory`.
+4.  **Train the Model**: Run `python provider/train.py`. Skip this step if using `start_all.py`.
 5.  **Test**: Run your new service script directly or via `start_all.py` and test its endpoints.
