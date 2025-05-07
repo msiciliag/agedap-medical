@@ -5,9 +5,8 @@ from abc import ABC, abstractmethod
 import logging
 
 class AIServiceEndpoint(ABC):
-    def __init__(self, service_name, model_display_name, fhe_directory):
+    def __init__(self, service_name, fhe_directory):
         self.service_name = service_name
-        self.model_display_name = model_display_name
         self.fhe_directory = fhe_directory
         self.server = None
         self.app = self.create_app()
@@ -75,35 +74,6 @@ class AIServiceEndpoint(ABC):
         """
         pass
 
-    def get_info(self):
-        """Provides metadata about the service, including input requirements defined by subclasses."""
-        if not self.server:
-            return jsonify({
-                "error": "FHE Model Server not loaded or failed to initialize.",
-                "service_name": self.service_name,
-                "model_display_name": self.model_display_name,
-            }), 503
-
-        omop_reqs = self.get_omop_requirements()
-        additional_info = self.get_additional_service_info()
-
-        if not isinstance(omop_reqs, dict):
-            self.app.logger.error(f"get_omop_requirements for {self.service_name} did not return a dictionary.")
-            omop_reqs = {"error": "OMOP requirements not configured properly."}
-
-        if not isinstance(additional_info, dict):
-            self.app.logger.error(f"get_additional_service_info for {self.service_name} did not return a dictionary.")
-            additional_info = {"error": "Additional info not configured properly."}
-
-        metadata = {
-            "service_name": self.service_name,
-            "model_display_name": self.model_display_name,
-            "fhe_directory": self.fhe_directory,
-            "omop_requirements": omop_reqs,
-            "additional_service_info": additional_info
-        }
-        return jsonify(metadata)
-
     def predict(self):
         """Handles predictions. This logic is common to all FHE services."""
         if not self.server:
@@ -132,7 +102,7 @@ class AIServiceEndpoint(ABC):
 
     def add_routes(self):
         """Add the routes to the Flask app."""
-        self.app.add_url_rule('/info', view_func=self.get_info, methods=['GET'])
+        self.app.add_url_rule('/get_omop_requirements', view_func=self.get_omop_requirements, methods=['GET'])
         self.app.add_url_rule('/get_additional_service_info', view_func=self.get_additional_service_info, methods=['GET'])
         self.app.add_url_rule('/predict', view_func=self.predict, methods=['POST'])
 

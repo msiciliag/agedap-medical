@@ -2,19 +2,16 @@ from base_service import AIServiceEndpoint
 from flask import jsonify
 
 service_name = "Breast Cancer Screening"
-model_display_name = "breast_cancer"
 fhe_directory = '/tmp/breast_cancer_fhe_files/' 
 
 class BreastCancerScreening(AIServiceEndpoint):
 
     def __init__(self):
-        super().__init__(service_name, model_display_name, fhe_directory)
+        super().__init__(service_name, fhe_directory)
 
     def get_omop_requirements(self):
         """Provides metadata about the expected input features."""
-        metadata = {
-            "omop_requirements": {
-                "required_measurements_by_source_value": [
+        metadata = [
                     "radius1",
                     "texture1",
                     "perimeter1",
@@ -46,8 +43,6 @@ class BreastCancerScreening(AIServiceEndpoint):
                     "symmetry3",
                     "fractal_dimension3"
                 ]
-            }
-        }
         return jsonify(metadata)
 
     def get_additional_service_info(self):

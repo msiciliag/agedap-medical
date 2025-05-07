@@ -26,12 +26,10 @@ class BaseClient:
         :return: Model requirements and metadata.
         :raises ValueError: If the response format is unexpected.
         """
-        response = requests.get(f"{self.base_url}/info")
+        response = requests.get(f"{self.base_url}/get_omop_requirements")
         response.raise_for_status()
         metadata = response.json()
-        if "omop_requirements" in metadata:
-            return metadata
-        raise ValueError("Unexpected response format from server.")
+        return metadata
     
     def request_additional_info(self):
         """

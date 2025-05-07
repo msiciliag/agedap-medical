@@ -2,23 +2,21 @@ from base_service import AIServiceEndpoint
 from flask import jsonify
 
 service_name = "Diabetes Health Indicators Classification"
-model_display_name = "diabetes_classification"
 fhe_directory = '/tmp/diabetes_fhe_files/' 
 
 class DiabetesClassification(AIServiceEndpoint):
 
     def __init__(self):
-        super().__init__(service_name, model_display_name, fhe_directory)
+        super().__init__(service_name, fhe_directory)
 
     def get_omop_requirements(self):
         """Provides metadata about the expected input features."""
-        metadata = {
-            "omop_requirements": {
-                "required_measurements_by_source_value": [
-                    "glucose_level", "age", "bmi"  # TODO complete
-                ]
-            }
-        }
+        metadata = [
+            "HighBP", "HighChol", "CholCheck", "BMI", "Smoker", "Stroke", 
+            "HeartDiseaseorAttack", "PhysActivity", "Fruits", "Veggies", 
+            "HvyAlcoholConsump", "AnyHealthcare", "NoDocbcCost", "GenHlth", 
+            "MentHlth", "PhysHlth", "DiffWalk", "Sex", "Age", "Education", "Income"
+        ] # TODO define adecuately according to omop
         return jsonify(metadata)
 
     def get_additional_service_info(self):

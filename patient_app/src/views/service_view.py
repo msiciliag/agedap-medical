@@ -1,6 +1,7 @@
 import flet as ft
 from api_client.base_client import BaseClient
 from app_config import SERVICE_CONFIGS
+import omop_utils 
 
 def build_dynamic_service_view(page: ft.Page, service_key: str):
     """
@@ -36,9 +37,39 @@ def build_dynamic_service_view(page: ft.Page, service_key: str):
             ft.Text(service_name, size=24, weight=ft.FontWeight.BOLD),
             ft.Text(description),
         ]
+
+        prediction_result_text = ft.Text("")
+
+        def run_prediction_on_click(e):
+            try:
+                prediction_result_text.value = "Processing: Fetching OMOP data and running prediction..."
+                page.update()
+
+                scheme = client.request_info()
+                omop_data = omop_utils.get_data(scheme) 
+                
+                prediction = client.request_prediction(omop_data)
+                
+                prediction_result_text.value = f"Prediction Result: {prediction}"
+            except AttributeError as ae:
+                prediction_result_text.value = f"Error: A required method might be missing. {ae}"
+            except ImportError:
+                prediction_result_text.value = "Error: Failed to use omop_utils. Import issue?"
+            except Exception as ex:
+                prediction_result_text.value = f"Error during prediction: {str(ex)}"
+            page.update()
+
+        predict_button = ft.ElevatedButton(
+            "Run Prediction with OMOP Data", 
+            on_click=run_prediction_on_click
+        )
+        
+        content_controls.extend([predict_button, prediction_result_text])
+
     except ValueError:
         description = f"Error: Invalid response format from {service_name} service."
         content_controls = [ft.Text(description)]
+    
     
     view_content = [
         ft.AppBar(title=ft.Text(service_name), bgcolor=ft.Colors.SURFACE_TINT),
