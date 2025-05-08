@@ -60,7 +60,7 @@ def build_dynamic_service_view(page: ft.Page, service_key: str):
             page.update()
 
         predict_button = ft.ElevatedButton(
-            "Run Prediction with OMOP Data", 
+            "Run Service", 
             on_click=run_prediction_on_click
         )
         
