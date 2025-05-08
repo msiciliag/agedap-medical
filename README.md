@@ -2,6 +2,12 @@
 
 This proof of concept (PoC) explores a platform for medical applications, featuring a patient-facing application and backend provider services. The services implemented are based on Privacy Preserving Machine Learning models from the ConcreteML library, demonstrating the potential of FHE (Fully Homomorphic Encryption) in healthcare.
 
+## Quick Start
+
+Refer to README.md files inside `/patient_app` and `/provider` for a quick setup of each part of the project. 
+> [!TIP]
+> Start with `/provider/README.md`.
+
 ## Project Structure
 
 The project is organized into two main components:
@@ -29,12 +35,6 @@ The provider services offer example functionalities, which include:
 *   FHE machine learning models for tasks like breast cancer screening and diabetes classification, intended for evaluation.
 *   APIs for data exchange and communication with the patient application.
 *   Training scripts and configurations for the ML models, provided for experimentation.
-
-## Quick Start
-
-Refer to README.md files inside `/patient_app` and `/provider` for a quick setup of each part of the project. 
-> [!TIP]
-> Start with `/provider/README.md`.
 
 ## Contributing
 
