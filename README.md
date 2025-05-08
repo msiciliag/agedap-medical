@@ -1,4 +1,4 @@
-# Agedap Medical PPML
+# Agedap Medical - PPML
 
 This proof of concept (PoC) explores a platform for medical applications, featuring a patient-facing application and backend provider services. The services implemented are based on Privacy Preserving Machine Learning models from the ConcreteML library, demonstrating the potential of FHE (Fully Homomorphic Encryption) in healthcare.
 
