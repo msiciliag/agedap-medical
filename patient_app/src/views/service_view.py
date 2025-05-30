@@ -49,8 +49,20 @@ def build_dynamic_service_view(page: ft.Page, service_key: str):
                 omop_data = omop_utils.get_data(scheme) 
                 
                 prediction = client.request_prediction(omop_data)
-                
-                prediction_result_text.value = f"Prediction Result: {prediction}"
+                print(f"Prediction result: {prediction}")
+                if prediction: 
+                    prediction_result_text.value = (
+                        "Preliminary Assessment:\n"
+                        "This tool has identified some patterns that your doctor might want to review with you. "
+                        "We encourage you to schedule a consultation."
+                    )
+                else:
+                    prediction_result_text.value = (
+                        "Preliminary Assessment:\n"
+                        "The results of this assessment are favorable, you are most likely not at risk. "
+                        "This tool is not a substitute for full professional medical advice, "
+                        "and it is recommended to continue regular check-ups with your healthcare provider."
+                    )
             except AttributeError as ae:
                 prediction_result_text.value = f"Error: A required method might be missing. {ae}"
             except ImportError:

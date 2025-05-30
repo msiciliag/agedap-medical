@@ -49,11 +49,15 @@ class BreastCancerScreening(AIServiceEndpoint):
         additional_info = {
             "service_name": service_name,
             "description": (
-            "This service performs breast cancer screening using machine learning. "
+                "This service performs breast cancer screening using machine learning. "
             ),
+            "label_meanings": {
+                "0": "No Risk",
+                "1": "Risk"
+            }
         }
         return jsonify(additional_info)
-    
+
 if __name__ == "__main__":
     app = BreastCancerScreening().app
     app.run(host='0.0.0.0', port=5001, debug=False)

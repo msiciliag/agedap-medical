@@ -36,12 +36,25 @@ class BaseClient:
         if not isinstance(data, dict) or 'service_name' not in data:
             raise ValueError("Unexpected response format: missing service_name")
         return data['service_name']
-    
+
+    def _get_label_meanings(self):
+        """
+        Get the meanings of the labels used in the model.
+
+        :return: Dictionary mapping labels to their meanings.
+        """
+        response = requests.get(f"{self.base_url}/get_additional_service_info")
+        response.raise_for_status()
+        data = response.json()
+        if not isinstance(data, dict) or 'label_meanings' not in data:
+            raise ValueError("Unexpected response format: missing label_meanings")
+        return data['label_meanings']
+
     def request_info(self):
         """
-        Request information from the server about the model and its requirements.
+        Request the required data structure of the medical data from the server.
 
-        :return: Model requirements and metadata.
+        :return: Metadata about the expected input features.
         :raises ValueError: If the response format is unexpected.
         """
         response = requests.get(f"{self.base_url}/get_omop_requirements")
@@ -67,7 +80,7 @@ class BaseClient:
         Encrypt data, send it to the server, and decrypt the response.
 
         :param X_new: Input data as a NumPy array.
-        :return: Decrypted and decrypted response from the server.
+        :return: Decrypted prediction result as a boolean indicating risk.
         """
         encrypted_data = self.client.quantize_encrypt_serialize(X_new)
         serialized_evaluation_keys = self.client.get_serialized_evaluation_keys()
@@ -85,5 +98,15 @@ class BaseClient:
         if response.status_code != 200:
             raise ValueError(f"Unexpected response status code: {response.status_code}")
 
-        return self.client.deserialize_decrypt_dequantize(response.content)
-    
+
+        response = self.client.deserialize_decrypt_dequantize(response.content)
+        label_meanings = self._get_label_meanings()
+        print (f"Response: {response}, Label Meanings: {label_meanings}")
+
+        if response[0][0] > response[0][1]:
+            prediction_result = 0
+        else:
+            prediction_result = 1
+        prediction_label = label_meanings.get(str(prediction_result))
+        print(f"Prediction Result: {prediction_result}, Label: {prediction_label}")
+        return prediction_label == "Risk"

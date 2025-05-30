@@ -24,7 +24,11 @@ class DiabetesClassification(AIServiceEndpoint):
             "service_name": service_name,
             "description": (
                 "This service performs diabetes classification using machine learning. "
-            )
+            ),
+            "label_meanings": {
+                "0": "No Risk",
+                "1": "Risk"
+            }
         }
         return jsonify(additional_info)
     

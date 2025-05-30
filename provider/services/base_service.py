@@ -72,8 +72,14 @@ class AIServiceEndpoint(ABC):
         :return: A dictionary with additional service information.
         e.g.,
         {
-            "additional_info": "Some additional information about the service",
-            "version": "1.0.0"
+            "service_name": service_name,
+            "description": (
+                "This service performs breast cancer screening using machine learning. "
+            ),
+            "label_meanings": {
+                    "0": "No Risk",
+                    "1": "Risk"
+                }
         }
         """
         pass

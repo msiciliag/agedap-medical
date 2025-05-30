@@ -8,7 +8,6 @@ from concrete.ml.sklearn import RandomForestClassifier
 from concrete.ml.deployment import FHEModelDev
 from ucimlrepo import fetch_ucirepo
 from sklearn.preprocessing import LabelEncoder
-import os
 
 def load_data(dataset_id):
     """Fetch and preprocess the dataset."""
