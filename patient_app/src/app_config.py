@@ -1,3 +1,6 @@
+#TODO: using a .py for config is not a good practice, but for simplicity
+# it will be used for now. In a production app, consider using environment variables or a config management system.
+
 STORAGE_PREFIX = "agedap.medical."
 CONFIG_DONE_KEY = f"{STORAGE_PREFIX}config_done"
 NAME_KEY = f"{STORAGE_PREFIX}name"

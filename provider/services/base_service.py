@@ -1,14 +1,17 @@
-# --- START OF FILE base_service.py ---
-
 from flask import Flask, request, jsonify
 from abc import ABC, abstractmethod
+from key_manager import KeyManager
 import logging
+import yaml
+from pathlib import Path
+
 
 class AIServiceEndpoint(ABC):
-    def __init__(self, service_name, fhe_directory):
+    def __init__(self, service_name):
         self.service_name = service_name
-        self.fhe_directory = fhe_directory
+        self.fhe_directory = self.load_service_config(service_name)
         self.server = None
+        self.key_manager = KeyManager(service_name)
         self.app = self.create_app()
         self.configure_logging()
 
@@ -20,6 +23,7 @@ class AIServiceEndpoint(ABC):
         self.add_routes()
 
     def configure_logging(self):
+        """Configure logging for the Flask app."""
         handler = logging.StreamHandler()
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         handler.setFormatter(formatter)
@@ -75,25 +79,37 @@ class AIServiceEndpoint(ABC):
         pass
 
     def predict(self):
-        """Handles predictions. This logic is common to all FHE services."""
+        """Handles predictions. This logic is common to all FHE services.
+        It expects the request to contain the encrypted data, evaluation keys, and a single-use key.
+        Returns:
+            Response: JSON response with prediction results or error message.
+        """
         if not self.server:
             self.app.logger.error("Prediction attempt failed: FHE Model Server not available.")
             return jsonify({"error": "FHE Model Server not loaded or failed to initialize."}), 503
-
+        
         try:
             encrypted_data_file = request.files.get('encrypted_data')
             evaluation_keys_file = request.files.get('evaluation_keys')
-
-            if not encrypted_data_file or not evaluation_keys_file:
+            single_use_key_file = request.files.get('single_use_key')
+            
+            if not encrypted_data_file or not evaluation_keys_file or not single_use_key_file:
                 self.app.logger.warning("Prediction failed: Missing files in the request.")
-                return "Missing files in the request (expected 'encrypted_data' and 'evaluation_keys')", 400
+                return jsonify({"error": "Missing files in the request (expected 'encrypted_data', 'evaluation_keys', and 'single_use_key')"}) , 400
 
             encrypted_data = encrypted_data_file.read()
             serialized_evaluation_keys = evaluation_keys_file.read()
+            single_use_key = single_use_key_file.read().decode('utf-8').strip()
 
+            if not self.key_manager.validate_key(single_use_key):
+                self.app.logger.warning("Prediction failed: Invalid single-use key.")
+                return jsonify({"error": "Invalid single-use key."}), 403
+            
             self.app.logger.info(f"Running FHE prediction for {self.service_name}...")
             encrypted_result = self.server.run(encrypted_data, serialized_evaluation_keys)
             self.app.logger.info(f"FHE prediction for {self.service_name} successful.")
+
+            self.key_manager.mark_key_as_used(single_use_key)
 
             return encrypted_result, 200, {'Content-Type': 'application/octet-stream'}
         except Exception as e:
@@ -111,3 +127,26 @@ class AIServiceEndpoint(ABC):
         self.app.logger.info(f"Starting {self.model_display_name} service on http://{host}:{port}")
         self.app.run(host=host, port=port, debug=debug)
 
+    def load_service_config(self, service_name):
+        """Load service configuration from YAML file.
+        
+        Args:
+            service_name (str): Name of the service to load config for
+            
+        Returns:
+            str: FHE directory path from config
+            
+        Raises:
+            ValueError: If no configuration found for service
+        """
+        config_path = str(Path(__file__).parent.parent / 'training_config.yaml')
+        with open(config_path, 'r') as file:
+            config = yaml.safe_load(file)
+            dataset_config = next(
+                (d for d in config['datasets'] if d['service_name'] == service_name),
+                None
+            )
+            if not dataset_config:
+                raise ValueError(f"No configuration found for service {service_name}")
+            return dataset_config['output_directory']
+        

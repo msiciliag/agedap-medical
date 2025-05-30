@@ -11,6 +11,6 @@ datasets:
     output_directory: "/tmp/diabetes_fhe_files/" 
     n_estimators: 15
     max_depth: 7
-    service_name: "Diabetes Classification"
-    server_script: "provider/services/diabetes_classification_server.py" 
+    service_name: "Diabetes Health Indicators Classification"
+    server_script: "provider/services/diabetes_health_indicators_classification_server.py" 
     server_port: 5002

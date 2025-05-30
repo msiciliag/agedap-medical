@@ -2,12 +2,11 @@ from base_service import AIServiceEndpoint
 from flask import jsonify
 
 service_name = "Breast Cancer Screening"
-fhe_directory = '/tmp/breast_cancer_fhe_files/' 
 
 class BreastCancerScreening(AIServiceEndpoint):
 
     def __init__(self):
-        super().__init__(service_name, fhe_directory)
+        super().__init__(service_name)
 
     def get_omop_requirements(self):
         """Provides metadata about the expected input features."""

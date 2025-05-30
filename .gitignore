@@ -197,3 +197,6 @@ Icon
 .AppleDB
 .AppleDesktop
 .apdisk
+
+# Project-specific files
+/keys
