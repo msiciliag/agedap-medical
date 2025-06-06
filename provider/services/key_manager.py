@@ -48,7 +48,8 @@ class KeyManager:
     
     def _load_config_parameters(self):
         """Load configuration parameters from the config file."""
-        base_keys_dir = f"keys/{self.service_name}"
+        project_root = Path(__file__).resolve().parent.parent.parent
+        base_keys_dir = project_root / "keys" / self.service_name
         self.server_xpub_file = f"{base_keys_dir}/server_xpub.txt"
         self.valid_keys_file = f"{base_keys_dir}/valid.json"
         self.used_keys_file = f"{base_keys_dir}/used.json"
