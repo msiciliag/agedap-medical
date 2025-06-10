@@ -1,6 +1,7 @@
 import numpy as np
 from datetime import datetime, timedelta
-from db_utils import DatabaseManager
+from typing import Dict, List, Optional, Union
+from db_utils import DatabaseManager # Changed from relative import
 from omopmodel import OMOP_5_4_declarative as omop54
 
 def get_data(schema):

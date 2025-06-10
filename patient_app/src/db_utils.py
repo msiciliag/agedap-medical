@@ -4,7 +4,7 @@ Utilities for database operations using OMOP CDM, after initialization.
 from sqlalchemy.orm import Session
 from typing import List, Optional
 
-from patient_app.src.db.config import get_session 
+from db.config import get_session 
 from omopmodel import OMOP_5_4_declarative as omop54
 
 
