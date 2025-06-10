@@ -1,6 +1,7 @@
 import flet as ft
 from app_config import APP_LEVEL_STORAGE_KEYS 
 from navigation import route_change_handler, view_pop_handler
+from app_init import initialize_application
 
 
 def main(page: ft.Page):
@@ -23,4 +24,8 @@ def main(page: ft.Page):
     page.go("/login")
 
 if __name__ == "__main__":
+    # Initialize the application (database, etc.)
+    initialize_application()
+    
+    # Start the Flet app
     ft.app(target=main)

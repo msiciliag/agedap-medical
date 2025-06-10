@@ -5,10 +5,15 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "bip-utils>=2.9.3",
     "concrete-ml",
+    "dzdomop>=0.4.0",
     "fhir-resources>=8.0.0",
     "flask>=3.1.0",
     "flet>=0.27.6",
+    "flet-cli==0.27.6",
+    "flet-desktop>=0.27.6",
+    "flet-web>=0.27.6",
     "numpy",
     "requests>=2.32.3",
     "ucimlrepo",

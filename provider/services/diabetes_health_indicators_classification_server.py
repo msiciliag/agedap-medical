@@ -1,5 +1,10 @@
-from base_service import AIServiceEndpoint
 from flask import jsonify
+from base_service import AIServiceEndpoint
+from shared.terminology_definitions import (
+    DIABETES_DEFINITIONS,
+    DIABETES_CONCEPT_START_ID,
+    DIABETES_CODE_SYSTEM
+)
 
 service_name = "Diabetes Health Indicators Classification"
 
@@ -7,16 +12,46 @@ class DiabetesClassification(AIServiceEndpoint):
 
     def __init__(self):
         super().__init__(service_name)
+        self.omop_metadata = self._generate_omop_requirements()
+        self.fhir_metadata = self._generate_fhir_requirements()
+
+    def _generate_omop_requirements(self):
+        omop_reqs = {}
+        current_id = DIABETES_CONCEPT_START_ID
+
+        for domain, definitions in DIABETES_DEFINITIONS.items():
+            domain_reqs = []
+            for m_def in definitions:
+                domain_reqs.append({
+                    f"{domain.lower()}_concept_id": current_id,
+                    f"{domain.lower()}_source_value": m_def["source_value"],
+                    "value_name": m_def["value_name"]
+                })
+                current_id += 1
+            omop_reqs[domain.lower()] = domain_reqs
+        return omop_reqs
+
+    def _generate_fhir_requirements(self):
+        fhir_reqs = []
+        for domain, definitions in self.omop_metadata.items():
+            for req in definitions:
+                fhir_reqs.append({
+                    "name": req["value_name"],
+                    "fhir_resource_type": domain.title(),
+                    "fhir_code": {
+                        "system": DIABETES_CODE_SYSTEM,
+                        "code": req[f"{domain}_source_value"],
+                        "display": req[f"{domain}_source_value"].replace('_', ' ').title()
+                    },
+                    "fhir_value_type": "valueQuantity" if domain == 'measurement' else 'valueCodeableConcept'
+                })
+        return fhir_reqs
 
     def get_omop_requirements(self):
-        """Provides metadata about the expected input features."""
-        metadata = [
-            "HighBP", "HighChol", "CholCheck", "BMI", "Smoker", "Stroke", 
-            "HeartDiseaseorAttack", "PhysActivity", "Fruits", "Veggies", 
-            "HvyAlcoholConsump", "AnyHealthcare", "NoDocbcCost", "GenHlth", 
-            "MentHlth", "PhysHlth", "DiffWalk", "Sex", "Age", "Education", "Income"
-        ] # TODO define adecuately according to omop
-        return jsonify(metadata)
+        return jsonify(self.omop_metadata)
+
+    def get_fhir_requirements(self):
+        return jsonify(self.fhir_metadata)
 
     def get_additional_service_info(self):
         """Provides additional data about the service."""

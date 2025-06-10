@@ -47,6 +47,7 @@ def build_dynamic_service_view(page: ft.Page, service_key: str):
 
                 scheme = client.request_info()
                 omop_data = omop_utils.get_data(scheme) 
+                print(f"OMOP Data: {omop_data}")
                 
                 prediction = client.request_prediction(omop_data)
                 print(f"Prediction result: {prediction}")
