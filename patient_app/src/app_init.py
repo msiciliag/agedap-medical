@@ -20,7 +20,7 @@ project_root_parent = project_root.parent # /root/agedap-medical/
 sys.path.insert(0, str(project_root_parent))
 # --- End Path Setup ---
 
-from patient_app.src.db.omop_initializer import ensure_database_initialized
+from db.omop_initializer import ensure_database_initialized
 
 def initialize_application():
     """Initialize the application and its dependencies."""

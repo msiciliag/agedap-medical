@@ -1,5 +1,5 @@
 from concrete.ml.deployment import FHEModelClient
-from .key_manager import KeyManager
+from api_client.key_manager import KeyManager
 import requests
 
 class BaseClient:
@@ -30,7 +30,8 @@ class BaseClient:
         :return: Service name as a string.
         :raises ValueError: If the response format is unexpected.
         """
-        response = requests.get(f"{self.base_url}/get_additional_service_info")
+        print(f"{self.base_url}/additional_service_info")
+        response = requests.get(f"{self.base_url}/additional_service_info")
         response.raise_for_status()
         data = response.json()
         if not isinstance(data, dict) or 'service_name' not in data:
@@ -43,7 +44,7 @@ class BaseClient:
 
         :return: Dictionary mapping labels to their meanings.
         """
-        response = requests.get(f"{self.base_url}/get_additional_service_info")
+        response = requests.get(f"{self.base_url}/additional_service_info")
         response.raise_for_status()
         data = response.json()
         if not isinstance(data, dict) or 'label_meanings' not in data:
@@ -57,7 +58,7 @@ class BaseClient:
         :return: Metadata about the expected input features.
         :raises ValueError: If the response format is unexpected.
         """
-        response = requests.get(f"{self.base_url}/get_omop_requirements")
+        response = requests.get(f"{self.base_url}/omop_requirements")
         response.raise_for_status()
         metadata = response.json()
         return metadata
@@ -69,7 +70,8 @@ class BaseClient:
         :return: Model requirements and metadata.
         :raises ValueError: If the response format is unexpected.
         """
-        response = requests.get(f"{self.base_url}/get_additional_service_info")
+        print(f"Requesting additional service info from {self.base_url}/additional_service_info")
+        response = requests.get(f"{self.base_url}/additional_service_info")
         response.raise_for_status()
         metadata = response.json()
         return metadata

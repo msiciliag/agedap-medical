@@ -27,7 +27,7 @@ provider/
 ```
 
 -   **`services/`**: Contains the individual Flask-based server applications for each AI model.
-    -   `base_service.py`: Provides a common structure and utilities for all AI service endpoints, including loading FHE models and defining common API routes like `/get_additional_service_info` and `/get_omop_requirements`.
+    -   `base_service.py`: Provides a common structure and utilities for all AI service endpoints, including loading FHE models and defining common API routes like `/additional_service_info` and `/omop_requirements`.
     -   Each `*_server.py` file (e.g., `breast_cancer_screening_server.py`) implements a specific AI service, inheriting from `AIServiceEndpoint` in `base_service.py`. It loads its corresponding FHE model and exposes prediction endpoints.
 -   **`start_all.py`**: A management script that takes `training_config.yaml` as an input and:
     - Checks whether the required FHE model artifacts specified in the configuration file exists.

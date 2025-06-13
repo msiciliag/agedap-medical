@@ -1,7 +1,7 @@
 import flet as ft
 from api_client.base_client import BaseClient
 from app_config import SERVICE_CONFIGS
-import omop_utils 
+import utils.omop as omop_utils 
 
 def build_dynamic_service_view(page: ft.Page, service_key: str):
     """

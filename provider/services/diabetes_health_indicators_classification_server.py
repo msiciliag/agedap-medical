@@ -1,17 +1,19 @@
+import sys
+sys.path.append("../..") 
 from flask import jsonify
-from base_service import AIServiceEndpoint
-from shared.terminology_definitions import (
+from provider.services.base_service import AIServiceEndpoint
+from standard_definitions.terminology_definitions import (
     DIABETES_DEFINITIONS,
     DIABETES_CONCEPT_START_ID,
     DIABETES_CODE_SYSTEM
 )
 
-service_name = "Diabetes Health Indicators Classification"
+SERVICE_NAME = "Diabetes Health Indicators Classification"
 
 class DiabetesClassification(AIServiceEndpoint):
 
     def __init__(self):
-        super().__init__(service_name)
+        super().__init__(SERVICE_NAME)
         self.omop_metadata = self._generate_omop_requirements()
         self.fhir_metadata = self._generate_fhir_requirements()
 
@@ -56,7 +58,7 @@ class DiabetesClassification(AIServiceEndpoint):
     def get_additional_service_info(self):
         """Provides additional data about the service."""
         additional_info = {
-            "service_name": service_name,
+            "service_name": SERVICE_NAME,
             "description": (
                 "This service performs diabetes classification using machine learning. "
             ),

@@ -135,16 +135,13 @@ class AIServiceEndpoint(ABC):
         except Exception as e:
             self.app.logger.error(f"Prediction error for {self.service_name}: {e}", exc_info=True)
             return jsonify({"error": f"An internal server error occurred during prediction: {str(e)}"}), 500
-    
-    def get_additional_service_info_endpoint(self):
-        return self.get_additional_service_info()
 
     def add_routes(self):
         """Add all relevant routes for the service."""
-        self.app.add_url_rule(f"{base_path}/omop_requirements", f"{self.url_safe_name}_omop", self.get_omop_requirements, methods=['GET'])
-        self.app.add_url_rule(f"{base_path}/fhir_requirements", f"{self.url_safe_name}_fhir", self.get_fhir_requirements, methods=['GET'])
-        self.app.add_url_rule(f"/{self.service_name}/additional_service_info", "get_additional_service_info_endpoint", self.get_additional_service_info_endpoint, methods=["GET"])
-        self.app.add_url_rule(f"/{self.service_name}/predict", "predict", self.predict, methods=["POST"])
+        self.app.add_url_rule("/omop_requirements", view_func=self.get_omop_requirements, methods=['GET'])
+        self.app.add_url_rule("/fhir_requirements", view_func=self.get_fhir_requirements, methods=['GET'])
+        self.app.add_url_rule("/additional_service_info", view_func=self.get_additional_service_info, methods=["GET"])
+        self.app.add_url_rule("/predict", view_func=self.predict, methods=["POST"])
 
     def run(self, port, host='0.0.0.0', debug=False):
         """Run the Flask app for this service."""

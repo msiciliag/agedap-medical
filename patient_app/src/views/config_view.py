@@ -1,11 +1,10 @@
-
 import flet as ft
 from datetime import date
 from app_config import (
     HOSPITAL_LIST, NAME_KEY, DOB_KEY, GENDER_KEY, CONFIG_DONE_KEY,
     SESSION_PATIENT_ID_KEY, SESSION_HOSPITAL_NAME_KEY, SESSION_HOSPITAL_URL_KEY
 )
-import fhir_utils 
+import utils.fhir as fhir_utils 
 
 def build_config_page_content(page: ft.Page, is_initial_setup=False):
     session_patient_id = page.client_storage.get(SESSION_PATIENT_ID_KEY)

@@ -1,8 +1,8 @@
 import inspect
-import logging # Import logging
-from ..config import get_session # Changed to ..config
+import logging 
+from db.config import get_session 
 from omopmodel import OMOP_5_4_declarative as omop54
-import standard_definitions.terminology_definitions as terminology_defs # Import the module itself
+import standard_definitions.terminology_definitions as terminology_defs 
 import datetime
 
 # Configure logger for this module

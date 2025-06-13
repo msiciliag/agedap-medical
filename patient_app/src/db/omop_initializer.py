@@ -1,5 +1,5 @@
-from .config import create_omop_tables, engine
-from .loaders.custom_concepts import load_defined_custom_concepts
+from db.config import create_omop_tables, engine
+from db.loaders.custom_concepts import load_defined_custom_concepts
 from sqlalchemy import inspect
 import sys
 from pathlib import Path

@@ -1,7 +1,7 @@
 import numpy as np
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Union
-from db_utils import DatabaseManager # Changed from relative import
+from utils.db import DatabaseManager 
 from omopmodel import OMOP_5_4_declarative as omop54
 
 def get_data(schema):
@@ -18,7 +18,7 @@ def get_data(schema):
     print(f"Esquema: {schema}")
     
     try:
-        session = DatabaseManager.get_session()
+        session = DatabaseManager.get_db_session()
         result_data = []
         
         if 'measurement' in schema:
@@ -81,25 +81,36 @@ def get_mock_data_for_schema(schema):
     Genera datos simulados basados en el esquema proporcionado.
     
     Args:
-        schema (dict): Un diccionario que define los campos requeridos.
+        schema (dict or list): Un diccionario que define los campos requeridos (e.g., para 'measurement')
+                               o una lista de nombres de características.
     
     Returns:
-        np.array: Matriz NumPy con datos simulados.
+        np.array: Matriz NumPy 2D con datos simulados (una fila de datos).
     """
     print("Generando datos simulados para el esquema.")
-    mock_data = []
-    
-    if 'measurement' in schema:
+    current_row_values = []
+
+    if isinstance(schema, dict) and 'measurement' in schema:
         measurements_list = schema['measurement']
-        values = []
-        
         for _ in measurements_list:
             # Genera un valor aleatorio entre 0.1 y 10.0
-            values.append(np.random.uniform(0.1, 10.0))
-        
-        mock_data.append(values)
+            current_row_values.append(np.random.uniform(0.1, 10.0))
+        # current_row_values is populated or [] if measurements_list was empty
     
-    return np.array(mock_data)
+    elif isinstance(schema, list): # Handles schemas like ['feature1', 'feature2', ...]
+        if schema: # If the list of feature names is not empty
+            for _ in schema: # For each feature name
+                # Mocking with random 0 or 1 for list-based schema features
+                current_row_values.append(np.random.randint(0, 2))
+        # If schema was an empty list, current_row_values remains []
+        
+    # else:
+        # If schema is neither a dict with 'measurement' nor a list,
+        # current_row_values remains []. An empty row will be wrapped into a 2D array.
+
+    # Always return a 2D array by wrapping current_row_values in an outer list.
+    # This creates np.array([[val1, val2, ...]]) or np.array([[]]) if current_row_values is empty.
+    return np.array([current_row_values])
 
 def transform_fhir_bundle_to_omop(bundle):
     """
@@ -130,7 +141,7 @@ def transform_fhir_bundle_to_omop(bundle):
         print("Bundle vacío o sin entradas.")
         return omop_data
 
-    session = DatabaseManager.get_session() # Obtain session for vocabulary lookups
+    session = DatabaseManager.get_db_session() # Obtain session for vocabulary lookups
 
     for entry in bundle.entry:
         if not entry.resource:

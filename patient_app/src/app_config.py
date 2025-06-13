@@ -28,6 +28,6 @@ HOSPITAL_LIST = {
 }
 
 SERVICE_CONFIGS = {
-    "breast_cancer": {"url": "http://localhost:5001/", "fhe_directory": "/tmp/breast_cancer_fhe_files/", "key_directory": "/tmp/keys_client_fhe/"},
-    "diabetes": {"url": "http://localhost:5002/", "fhe_directory": "/tmp/diabetes_fhe_files/", "key_directory": "/tmp/keys_client_fhe/"},
+    "breast_cancer": {"url": "http://localhost:5001", "fhe_directory": "/tmp/breast_cancer_fhe_files/", "key_directory": "/tmp/keys_client_fhe/"},
+    "diabetes": {"url": "http://localhost:5002", "fhe_directory": "/tmp/diabetes_fhe_files/", "key_directory": "/tmp/keys_client_fhe/"},
 }
