@@ -5,7 +5,6 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from omopmodel import OMOP_5_4_declarative as omop54
-from omopmodel import VocabulariesLoader
 
 # Configuración de la base de datos
 DATABASE_PATH = os.environ.get(

@@ -7,75 +7,66 @@
 # agreed upon by data stewards and development teams.
 # =============================================================================
 
+FHIR_CUSTOM_CODE_SYSTEM_BASE_URI = "http://agedap_medical.com/codes/"
 
-OMOP_CUSTOM_CONCEPT_START_ID = 2_000_000_001
-FHIR_CUSTOM_CODE_SYSTEM_URI_BASE = "http://agedap_medical.com/codes/"
+ALL_DEFINITIONS = {
+    "radius1": {"source_value": "radius_mean", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000001},
+    "texture1": {"source_value": "texture_mean", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000002},
+    "perimeter1": {"source_value": "perimeter_mean", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000003},
+    "area1": {"source_value": "area_mean", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000004},
+    "smoothness1": {"source_value": "smoothness_mean", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000005},
+    "compactness1": {"source_value": "compactness_mean", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000006},
+    "concavity1": {"source_value": "concavity_mean", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000007},
+    "concave_points1": {"source_value": "concave_points_mean", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000008},
+    "symmetry1": {"source_value": "symmetry_mean", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000009},
+    "fractal_dimension1": {"source_value": "fractal_dimension_mean", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000010},
+    "radius2": {"source_value": "radius_se", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000011},
+    "texture2": {"source_value": "texture_se", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000012},
+    "perimeter2": {"source_value": "perimeter_se", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000013},
+    "area2": {"source_value": "area_se", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000014},
+    "smoothness2": {"source_value": "smoothness_se", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000015},
+    "compactness2": {"source_value": "compactness_se", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000016},
+    "concavity2": {"source_value": "concavity_se", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000017},
+    "concave_points2": {"source_value": "concave_points_se", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000018},
+    "symmetry2": {"source_value": "symmetry_se", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000019},
+    "fractal_dimension2": {"source_value": "fractal_dimension_se", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000020},
+    "radius3": {"source_value": "radius_worst", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000021},
+    "texture3": {"source_value": "texture_worst", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000022},
+    "perimeter3": {"source_value": "perimeter_worst", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000023},
+    "area3": {"source_value": "area_worst", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000024},
+    "smoothness3": {"source_value": "smoothness_worst", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000025},
+    "compactness3": {"source_value": "compactness_worst", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000026},
+    "concavity3": {"source_value": "concavity_worst", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000027},
+    "concave_points3": {"source_value": "concave_points_worst", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000028},
+    "symmetry3": {"source_value": "symmetry_worst", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000029},
+    "fractal_dimension3": {"source_value": "fractal_dimension_worst", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}breast-cancer-screening", "omop_concept_id": 2000000030},
 
-BREAST_CANCER_CONCEPT_START_ID = 2_000_000_001
-BREAST_CANCER_CODE_SYSTEM = f"{FHIR_CUSTOM_CODE_SYSTEM_URI_BASE}breast-cancer-screening"
-BREAST_CANCER_DEFINITIONS = {
-    "Measurement": [
-        {"source_value": "radius_mean", "value_name": "radius1"}, 
-        {"source_value": "texture_mean", "value_name": "texture1"},
-        {"source_value": "perimeter_mean", "value_name": "perimeter1"},
-        {"source_value": "area_mean", "value_name": "area1"},
-        {"source_value": "smoothness_mean", "value_name": "smoothness1"},
-        {"source_value": "compactness_mean", "value_name": "compactness1"},
-        {"source_value": "concavity_mean", "value_name": "concavity1"},
-        {"source_value": "concave_points_mean", "value_name": "concave_points1"},
-        {"source_value": "symmetry_mean", "value_name": "symmetry1"},
-        {"source_value": "fractal_dimension_mean", "value_name": "fractal_dimension1"},
-        {"source_value": "radius_se", "value_name": "radius2"},
-        {"source_value": "texture_se", "value_name": "texture2"},
-        {"source_value": "perimeter_se", "value_name": "perimeter2"},
-        {"source_value": "area_se", "value_name": "area2"},
-        {"source_value": "smoothness_se", "value_name": "smoothness2"},
-        {"source_value": "compactness_se", "value_name": "compactness2"},
-        {"source_value": "concavity_se", "value_name": "concavity2"},
-        {"source_value": "concave_points_se", "value_name": "concave_points2"},
-        {"source_value": "symmetry_se", "value_name": "symmetry2"},
-        {"source_value": "fractal_dimension_se", "value_name": "fractal_dimension2"},
-        {"source_value": "radius_worst", "value_name": "radius3"},
-        {"source_value": "texture_worst", "value_name": "texture3"},
-        {"source_value": "perimeter_worst", "value_name": "perimeter3"},
-        {"source_value": "area_worst", "value_name": "area3"},
-        {"source_value": "smoothness_worst", "value_name": "smoothness3"},
-        {"source_value": "compactness_worst", "value_name": "compactness3"},
-        {"source_value": "concavity_worst", "value_name": "concavity3"},
-        {"source_value": "concave_points_worst", "value_name": "concave_points3"},
-        {"source_value": "symmetry_worst", "value_name": "symmetry3"},
-        {"source_value": "fractal_dimension_worst", "value_name": "fractal_dimension3"}
-    ]
+
+    "chol_check_last_5_years": {"source_value": "CholCheck", "domain": "Observation", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000031},
+    "smoker_status": {"source_value": "Smoker", "domain": "Observation", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000032},
+    "phys_activity_last_30_days": {"source_value": "PhysActivity", "domain": "Observation", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000033},
+    "eats_fruit_daily": {"source_value": "Fruits", "domain": "Observation", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000034},
+    "eats_vegetables_daily": {"source_value": "Veggies", "domain": "Observation", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000035},
+    "heavy_alcohol_consumer": {"source_value": "HvyAlcoholConsump", "domain": "Observation", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000036},
+    "has_healthcare_coverage": {"source_value": "AnyHealthcare", "domain": "Observation", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000037},
+    "deferred_doctor_visit_due_to_cost": {"source_value": "NoDocbcCost", "domain": "Observation", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000038},
+    "general_health_scale_1_5": {"source_value": "GenHlth", "domain": "Observation", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000039},
+    "days_of_poor_mental_health": {"source_value": "MentHlth", "domain": "Observation", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000040},
+    "days_of_poor_physical_health": {"source_value": "PhysHlth", "domain": "Observation", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000041},
+    "has_difficulty_walking": {"source_value": "DiffWalk", "domain": "Observation", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000042},
+    "patient_sex": {"source_value": "Sex", "domain": "Observation", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "is_person_demographic": True, "omop_concept_id": 2000000043},
+    "patient_age": {"source_value": "Age", "domain": "Observation", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "is_person_demographic": True, "omop_concept_id": 2000000044},
+    "education_level_scale_1_6": {"source_value": "Education", "domain": "Observation", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000045},
+    "income_level_scale_1_8": {"source_value": "Income", "domain": "Observation", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000046},
+    
+    # Condiciones
+    "diabetes_status": {"source_value": "Diabetes_012", "domain": "Condition", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000047},
+    "high_blood_pressure_status": {"source_value": "HighBP", "domain": "Condition", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000048},
+    "high_cholesterol_status": {"source_value": "HighChol", "domain": "Condition", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000049},
+    "stroke_history": {"source_value": "Stroke", "domain": "Condition", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000050},
+    "heart_disease_or_attack_history": {"source_value": "HeartDiseaseorAttack", "domain": "Condition", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000051},
+    
+    # Medición
+    "body_mass_index": {"source_value": "BMI", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000052}
 }
 
-
-DIABETES_CONCEPT_START_ID = 2_000_000_031
-DIABETES_CODE_SYSTEM = f"{FHIR_CUSTOM_CODE_SYSTEM_URI_BASE}cdc-diabetes-indicators"
-DIABETES_DEFINITIONS = {
-    "Observation": [
-        {"source_value": "CholCheck", "value_name": "chol_check_last_5_years"},
-        {"source_value": "Smoker", "value_name": "smoker_status"},
-        {"source_value": "PhysActivity", "value_name": "phys_activity_last_30_days"},
-        {"source_value": "Fruits", "value_name": "eats_fruit_daily"},
-        {"source_value": "Veggies", "value_name": "eats_vegetables_daily"},
-        {"source_value": "HvyAlcoholConsump", "value_name": "heavy_alcohol_consumer"},
-        {"source_value": "AnyHealthcare", "value_name": "has_healthcare_coverage"},
-        {"source_value": "NoDocbcCost", "value_name": "deferred_doctor_visit_due_to_cost"},
-        {"source_value": "DiffWalk", "value_name": "has_difficulty_walking"},
-        {"source_value": "GenHlth", "value_name": "general_health_scale_1_5"},
-        {"source_value": "MentHlth", "value_name": "days_of_poor_mental_health"},
-        {"source_value": "PhysHlth", "value_name": "days_of_poor_physical_health"},
-        {"source_value": "Education", "value_name": "education_level_scale_1_6"},
-        {"source_value": "Income", "value_name": "income_level_scale_1_8"}
-    ],
-    "Condition": [
-        {"source_value": "Diabetes_012", "value_name": "diabetes_status"},
-        {"source_value": "HighBP", "value_name": "high_blood_pressure_status"},
-        {"source_value": "HighChol", "value_name": "high_cholesterol_status"},
-        {"source_value": "Stroke", "value_name": "stroke_history"},
-        {"source_value": "HeartDiseaseorAttack", "value_name": "heart_disease_or_attack_history"}
-    ],
-    "Measurement": [
-        {"source_value": "BMI", "value_name": "body_mass_index"}
-    ]
-}

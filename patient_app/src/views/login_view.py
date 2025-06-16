@@ -19,7 +19,7 @@ def build_login_view(page: ft.Page):
 
     patient_tiles = []
     for name, patient_id in USER_PATIENT_IDS.items():
-        current_id = patient_id  # Capture current_id for lambda
+        current_id = patient_id
         tile = ft.ListTile(
             leading=ft.Icon(ft.Icons.ACCOUNT_CIRCLE_OUTLINED),
             title=ft.Text(name.capitalize()),

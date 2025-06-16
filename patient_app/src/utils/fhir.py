@@ -96,17 +96,3 @@ def load_bundle_from_file(file_path: str) -> Optional[Bundle]:
     except Exception as e:
         print(f"An unexpected error occurred while parsing FHIR Bundle from {file_path}: {e}")
         return None
-
-
-
-if __name__ == "__main__":
-    
-    file_path = "/root/agedap-medical/patient_app/src/data/fhir_bundles/breast_cancer_bundle.json"
-    fhir_bundle = load_bundle_from_file(file_path)
-    if fhir_bundle:
-        print(f"Loaded FHIR resource: {fhir_bundle.get_resource_type()}, Entries: {len(fhir_bundle.entry) if fhir_bundle.entry else 0}")
-
-    file_path = "/root/agedap-medical/patient_app/src/data/fhir_bundles/diabetes_bundle.json"
-    fhir_bundle = load_bundle_from_file(file_path)
-    if fhir_bundle:
-        print(f"Loaded FHIR resource: {fhir_bundle.get_resource_type()}, Entries: {len(fhir_bundle.entry) if fhir_bundle.entry else 0}")
