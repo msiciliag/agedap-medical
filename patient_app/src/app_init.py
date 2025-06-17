@@ -1,36 +1,60 @@
 """
-Application initialization module.
+Application initialization module - Updated for new three-layer architecture.
 """
 import os
 import sys
 from pathlib import Path
 
-# --- Logging Configuration ---
 import logging
 logging.basicConfig(level=logging.INFO, 
                     format='%(asctime)s - %(levelname)s - %(name)s - %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S')
 logger = logging.getLogger(__name__)
-# --- End Logging Configuration ---
 
-# --- Path Setup (Crucial for finding standard_definitions and other modules) ---
 current_script_path = Path(__file__).resolve()
-project_root = current_script_path.parent.parent # /root/agedap-medical/patient_app
-project_root_parent = project_root.parent # /root/agedap-medical/
+project_root = current_script_path.parent.parent 
+project_root_parent = project_root.parent 
 sys.path.insert(0, str(project_root_parent))
-# --- End Path Setup ---
 
-from db.omop_initializer import ensure_database_initialized
+from db.db_init import schema_manager
+from utils.omop import load_custom_concepts_from_definitions
+from utils.db import DatabaseManager
 
-def initialize_application():
-    """Initialize the application and its dependencies."""
-    logger.info("Initializing application...")
+def initialize_application(reset_db: bool = False):
+    """
+    Initialize the application with new three-layer architecture.
     
-    # Ensure DB is set up before the app fully starts or config is used
-    ensure_database_initialized()
+    Args:
+        reset_db: If True, resets the database schema
+    """
+    logger.info("Initializing application with new architecture...")
+    
+    try:
+        if reset_db:
+            logger.info("Resetting database schema...")
+            schema_manager.reset_schema()
+        elif not schema_manager.schema_exists():
+            logger.info("Creating database schema...")
+            schema_manager.create_schema()
+        else:
+            logger.info("Database schema already exists")
+        
+        validation = schema_manager.validate_schema()
+        if not validation['valid']:
+            logger.error(f"Schema validation failed: {validation['missing_tables']}")
+            raise Exception("Database schema is invalid")
+        
+        logger.info("Loading custom concepts...")
+        load_custom_concepts_from_definitions()
+        
+        stats = DatabaseManager.get_database_stats()
+        logger.info(f"Database statistics: {stats}")
+        
+        logger.info("  Application initialization complete")
+    
+    except Exception as e:
+        logger.error(f" Application initialization failed: {e}")
+        raise
 
-    logger.info("Application initialization complete.")
-
-# Example of how it might be called if this is the main entry point for some setups
 if __name__ == '__main__':
-    initialize_application()
+    initialize_application(reset_db=True)

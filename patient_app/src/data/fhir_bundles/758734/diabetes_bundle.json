@@ -1,0 +1,846 @@
+{
+  "resourceType": "Bundle",
+  "type": "transaction",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-HighBP",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "HighBP",
+              "display": "High Blood Pressure"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "effectiveDateTime": "2025-06-05T08:00:00Z",
+        "valueQuantity": {
+          "value": 1,
+          "unit": "boolean",
+          "system": "http://unitsofmeasure.org",
+          "code": "boolean"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs-HighBP"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-HighChol",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "HighChol",
+              "display": "High Cholesterol"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "effectiveDateTime": "2025-06-05T08:00:00Z",
+        "valueQuantity": {
+          "value": 0,
+          "unit": "boolean",
+          "system": "http://unitsofmeasure.org",
+          "code": "boolean"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs-HighChol"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-CholCheck",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "CholCheck",
+              "display": "Cholesterol Check"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "effectiveDateTime": "2025-06-05T08:00:00Z",
+        "valueQuantity": {
+          "value": 1,
+          "unit": "boolean",
+          "system": "http://unitsofmeasure.org",
+          "code": "boolean"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs-CholCheck"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-BMI",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "BMI",
+              "display": "Body Mass Index"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "effectiveDateTime": "2025-06-05T08:00:00Z",
+        "valueQuantity": {
+          "value": 25,
+          "unit": "kg/m2",
+          "system": "http://unitsofmeasure.org",
+          "code": "kg/m2"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs-BMI"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-Smoker",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "social-history"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "Smoker",
+              "display": "Smoking Status"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "effectiveDateTime": "2025-06-05T08:00:00Z",
+        "valueQuantity": {
+          "value": 0,
+          "unit": "boolean",
+          "system": "http://unitsofmeasure.org",
+          "code": "boolean"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs-Smoker"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-Stroke",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "Stroke",
+              "display": "History of Stroke"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "effectiveDateTime": "2025-06-05T08:00:00Z",
+        "valueQuantity": {
+          "value": 0,
+          "unit": "boolean",
+          "system": "http://unitsofmeasure.org",
+          "code": "boolean"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs-Stroke"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-HeartDiseaseorAttack",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "HeartDiseaseorAttack",
+              "display": "History of Heart Disease or Attack"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "effectiveDateTime": "2025-06-05T08:00:00Z",
+        "valueQuantity": {
+          "value": 0,
+          "unit": "boolean",
+          "system": "http://unitsofmeasure.org",
+          "code": "boolean"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs-HeartDiseaseorAttack"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-PhysActivity",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "PhysActivity",
+              "display": "Physical Activity"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "effectiveDateTime": "2025-06-05T08:00:00Z",
+        "valueQuantity": {
+          "value": 1,
+          "unit": "boolean",
+          "system": "http://unitsofmeasure.org",
+          "code": "boolean"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs-PhysActivity"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-Fruits",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "Fruits",
+              "display": "Fruit Consumption"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "effectiveDateTime": "2025-06-05T08:00:00Z",
+        "valueQuantity": {
+          "value": 1,
+          "unit": "boolean",
+          "system": "http://unitsofmeasure.org",
+          "code": "boolean"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs-Fruits"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-Veggies",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "Veggies",
+              "display": "Vegetable Consumption"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "effectiveDateTime": "2025-06-05T08:00:00Z",
+        "valueQuantity": {
+          "value": 1,
+          "unit": "boolean",
+          "system": "http://unitsofmeasure.org",
+          "code": "boolean"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs-Veggies"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-HvyAlcoholConsump",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "social-history"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "HvyAlcoholConsump",
+              "display": "Heavy Alcohol Consumption"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "effectiveDateTime": "2025-06-05T08:00:00Z",
+        "valueQuantity": {
+          "value": 0,
+          "unit": "boolean",
+          "system": "http://unitsofmeasure.org",
+          "code": "boolean"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs-HvyAlcoholConsump"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-AnyHealthcare",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "AnyHealthcare",
+              "display": "Access to Healthcare"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "effectiveDateTime": "2025-06-05T08:00:00Z",
+        "valueQuantity": {
+          "value": 1,
+          "unit": "boolean",
+          "system": "http://unitsofmeasure.org",
+          "code": "boolean"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs-AnyHealthcare"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-NoDocbcCost",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "NoDocbcCost",
+              "display": "No Doctor Visit due to Cost"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "effectiveDateTime": "2025-06-05T08:00:00Z",
+        "valueQuantity": {
+          "value": 0,
+          "unit": "boolean",
+          "system": "http://unitsofmeasure.org",
+          "code": "boolean"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs-NoDocbcCost"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-GenHlth",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "GenHlth",
+              "display": "General Health"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "effectiveDateTime": "2025-06-05T08:00:00Z",
+        "valueQuantity": {
+          "value": 3,
+          "unit": "score",
+          "system": "http://unitsofmeasure.org",
+          "code": "score"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs-GenHlth"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-MentHlth",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "MentHlth",
+              "display": "Mental Health"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "effectiveDateTime": "2025-06-05T08:00:00Z",
+        "valueQuantity": {
+          "value": 2,
+          "unit": "days",
+          "system": "http://unitsofmeasure.org",
+          "code": "d"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs-MentHlth"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-PhysHlth",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "PhysHlth",
+              "display": "Physical Health"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "effectiveDateTime": "2025-06-05T08:00:00Z",
+        "valueQuantity": {
+          "value": 0,
+          "unit": "days",
+          "system": "http://unitsofmeasure.org",
+          "code": "d"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs-PhysHlth"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-DiffWalk",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "DiffWalk",
+              "display": "Difficulty Walking"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "effectiveDateTime": "2025-06-05T08:00:00Z",
+        "valueQuantity": {
+          "value": 0,
+          "unit": "boolean",
+          "system": "http://unitsofmeasure.org",
+          "code": "boolean"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs-DiffWalk"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-Sex",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "Sex",
+              "display": "Sex"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "effectiveDateTime": "2025-06-05T08:00:00Z",
+        "valueQuantity": {
+          "value": 1,
+          "unit": "code",
+          "system": "http://unitsofmeasure.org",
+          "code": "code"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs-Sex"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-Age",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "Age",
+              "display": "Age Category"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "effectiveDateTime": "2025-06-05T08:00:00Z",
+        "valueQuantity": {
+          "value": 35,
+          "unit": "years",
+          "system": "http://unitsofmeasure.org",
+          "code": "a"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs-Age"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-Education",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "social-history"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "Education",
+              "display": "Education Level"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "effectiveDateTime": "2025-06-05T08:00:00Z",
+        "valueQuantity": {
+          "value": 4,
+          "unit": "level",
+          "system": "http://unitsofmeasure.org",
+          "code": "level"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs-Education"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-Income",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "social-history"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "Income",
+              "display": "Income Category"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/1"
+        },
+        "effectiveDateTime": "2025-06-05T08:00:00Z",
+        "valueQuantity": {
+          "value": 6,
+          "unit": "level",
+          "system": "http://unitsofmeasure.org",
+          "code": "level"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs-Income"
+      }
+    }
+  ]
+}

@@ -19,7 +19,7 @@ APP_LEVEL_STORAGE_KEYS = [
 
 USER_PATIENT_IDS = {
     "alice": "758718",
-    "john": "35552",
+    "maria": "758734",
 }
 
 HOSPITAL_LIST = {

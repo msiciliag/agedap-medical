@@ -2,7 +2,9 @@ import flet as ft
 from api_client.base_client import BaseClient
 from app_config import SERVICE_CONFIGS
 from utils.omop import get_data
-from app_config import SESSION_PATIENT_ID_KEY
+from app_config import (
+    SESSION_PATIENT_ID_KEY
+)
 
 def build_dynamic_service_view(page: ft.Page, service_key: str):
     """
@@ -102,13 +104,3 @@ def build_dynamic_service_view(page: ft.Page, service_key: str):
         f"/service/{service_key}",
         view_content
     )
-
-class ServiceView(ft.View):
-    # ... (existing code) ...
-
-    def _get_prediction(self, e=None):
-        # ... (existing code for FHE client check) ...
-
-        current_omop_person_id = page.client_storage.get(SESSION_PATIENT_ID_KEY)
-
-        ## filepath: /root/agedap-medical/patient_app/src/views/service_view.py

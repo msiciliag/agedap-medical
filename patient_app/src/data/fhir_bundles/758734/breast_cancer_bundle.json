@@ -1,0 +1,710 @@
+{
+  "resourceType": "Bundle",
+  "id": "bundle-collection-842302-v2",
+  "type": "collection",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:patient-842302",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "patient-842302",
+        "identifier": [
+          {
+            "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+            "value": "842302"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-radius-mean",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-radius-mean",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "radius_mean",
+              "display": "Radius Mean"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 17.99
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-texture-mean",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-texture-mean",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "texture_mean",
+              "display": "Texture Mean"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 10.38
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-perimeter-mean",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-perimeter-mean",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "perimeter_mean",
+              "display": "Perimeter Mean"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 122.8
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-area-mean",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-area-mean",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "area_mean",
+              "display": "Area Mean"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 1001.0
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-smoothness-mean",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-smoothness-mean",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "smoothness_mean",
+              "display": "Smoothness Mean"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 0.1184
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-compactness-mean",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-compactness-mean",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "compactness_mean",
+              "display": "Compactness Mean"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 0.2776
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-concavity-mean",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-concavity-mean",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "concavity_mean",
+              "display": "Concavity Mean"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 0.3001
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-concave-points-mean",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-concave-points-mean",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "concave_points_mean",
+              "display": "Concave Points Mean"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 0.1471
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-symmetry-mean",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-symmetry-mean",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "symmetry_mean",
+              "display": "Symmetry Mean"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 0.2419
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-fractal-dimension-mean",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-fractal-dimension-mean",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "fractal_dimension_mean",
+              "display": "Fractal Dimension Mean"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 0.07871
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-radius-se",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-radius-se",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "radius_se",
+              "display": "Radius Se"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 1.095
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-texture-se",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-texture-se",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "texture_se",
+              "display": "Texture Se"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 0.9053
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-perimeter-se",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-perimeter-se",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "perimeter_se",
+              "display": "Perimeter Se"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 8.589
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-area-se",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-area-se",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "area_se",
+              "display": "Area Se"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 153.4
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-smoothness-se",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-smoothness-se",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "smoothness_se",
+              "display": "Smoothness Se"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 0.006399
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-compactness-se",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-compactness-se",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "compactness_se",
+              "display": "Compactness Se"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 0.04904
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-concavity-se",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-concavity-se",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "concavity_se",
+              "display": "Concavity Se"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 0.05373
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-concave-points-se",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-concave-points-se",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "concave_points_se",
+              "display": "Concave Points Se"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 0.01587
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-symmetry-se",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-symmetry-se",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "symmetry_se",
+              "display": "Symmetry Se"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 0.03003
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-fractal-dimension-se",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-fractal-dimension-se",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "fractal_dimension_se",
+              "display": "Fractal Dimension Se"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 0.006193
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-radius-worst",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-radius-worst",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "radius_worst",
+              "display": "Radius Worst"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 25.38
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-texture-worst",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-texture-worst",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "texture_worst",
+              "display": "Texture Worst"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 17.33
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-perimeter-worst",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-perimeter-worst",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "perimeter_worst",
+              "display": "Perimeter Worst"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 184.6
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-area-worst",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-area-worst",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "area_worst",
+              "display": "Area Worst"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 2019.0
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-smoothness-worst",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-smoothness-worst",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "smoothness_worst",
+              "display": "Smoothness Worst"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 0.1622
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-compactness-worst",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-compactness-worst",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "compactness_worst",
+              "display": "Compactness Worst"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 0.6656
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-concavity-worst",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-concavity-worst",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "concavity_worst",
+              "display": "Concavity Worst"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 0.7119
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-concave-points-worst",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-concave-points-worst",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "concave_points_worst",
+              "display": "Concave Points Worst"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 0.2654
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-symmetry-worst",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-symmetry-worst",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "symmetry_worst",
+              "display": "Symmetry Worst"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 0.4601
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:obs-fractal-dimension-worst",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-fractal-dimension-worst",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://agedap_medical.com/codes/breast-cancer-screening",
+              "code": "fractal_dimension_worst",
+              "display": "Fractal Dimension Worst"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:patient-842302"
+        },
+        "valueQuantity": {
+          "value": 0.1189
+        }
+      }
+    }
+  ]
+}

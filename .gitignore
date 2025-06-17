@@ -200,3 +200,4 @@ Icon
 
 # Project-specific files
 /keys
+.db
