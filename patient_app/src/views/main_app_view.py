@@ -1,10 +1,10 @@
 import flet as ft
 from datetime import date
 from app_config import (
-    CONFIG_DONE_KEY, NAME_KEY, DOB_KEY, GENDER_KEY, SESSION_PATIENT_ID_KEY,
-    APP_LEVEL_STORAGE_KEYS, SERVICE_CONFIGS
+    CONFIG_DONE_KEY, NAME_KEY, SESSION_PATIENT_ID_KEY, SERVICE_CONFIGS, APP_LEVEL_STORAGE_KEYS
 )
 from api_client.base_client import BaseClient
+from utils import db, omop
 
 def build_services_page_content(page: ft.Page):
     service_tiles = []
@@ -43,27 +43,19 @@ def build_services_page_content(page: ft.Page):
 
 
 def build_my_data_page_content(page: ft.Page): 
+    session_patient_id = page.client_storage.get(SESSION_PATIENT_ID_KEY) or "Unknown"
     if not page.client_storage.get(CONFIG_DONE_KEY):
-        session_patient_id = page.client_storage.get(SESSION_PATIENT_ID_KEY) or "Unknown"
         return [
             ft.Text("My Data", size=24, weight=ft.FontWeight.BOLD),
             ft.Text(f"Please complete the configuration for Patient ID {session_patient_id} to load data."),
             ft.ElevatedButton("Go to Configuration", on_click=lambda _: page.go("/config/initial"), icon=ft.Icons.SETTINGS)
         ]
     else:
-        dob_str = page.client_storage.get(DOB_KEY)
-        dob_display = "N/A"
-        if dob_str:
-            try:
-                dob_date = date.fromisoformat(dob_str)
-                dob_display = dob_date.strftime("%B %d, %Y")
-            except (ValueError, TypeError):
-                dob_display = "Invalid Date Format"
-
+        dob_display = db.get_date_of_birth(session_patient_id) or "N/A"
         divider_color = ft.Colors.with_opacity(0.5, ft.Colors.ON_SURFACE)
         session_patient_id = page.client_storage.get(SESSION_PATIENT_ID_KEY) or "Unknown"
-        current_name = page.client_storage.get(NAME_KEY) or "N/A" 
-        gender = page.client_storage.get(GENDER_KEY) or "N/A"
+        current_name = page.client_storage.get(NAME_KEY) or "N/A"
+        gender = db.get_gender(session_patient_id) or "N/A"
 
         return [
             ft.Row([
@@ -153,6 +145,8 @@ def build_main_app_view(page: ft.Page):
         for key in APP_LEVEL_STORAGE_KEYS: 
             if page.client_storage.contains_key(key):
                 page.client_storage.remove(key)
+        db.clear_database()
+        omop.load_custom_concepts_from_definitions()
         page.go("/login")
     
     return ft.View(

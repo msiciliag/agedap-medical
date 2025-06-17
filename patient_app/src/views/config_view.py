@@ -1,10 +1,11 @@
 import flet as ft
 from datetime import date
 from app_config import (
-    HOSPITAL_LIST, NAME_KEY, DOB_KEY, GENDER_KEY, CONFIG_DONE_KEY,
-    SESSION_PATIENT_ID_KEY, SESSION_HOSPITAL_NAME_KEY, SESSION_HOSPITAL_URL_KEY
+    HOSPITAL_LIST, CONFIG_DONE_KEY, SESSION_PATIENT_ID_KEY, 
+    SESSION_HOSPITAL_NAME_KEY, SESSION_HOSPITAL_URL_KEY, NAME_KEY
 )
-import utils.fhir as fhir_utils 
+from utils import fhir, db
+from utils.data_mapper import transform_patient
 
 def build_config_page_content(page: ft.Page, is_initial_setup=False):
     session_patient_id = page.client_storage.get(SESSION_PATIENT_ID_KEY)
@@ -58,7 +59,7 @@ def build_config_page_content(page: ft.Page, is_initial_setup=False):
         url = HOSPITAL_LIST[selected_hospital_name]
 
         try:
-            patient = fhir_utils.get_patient_data(current_patient_id, url)
+            patient = fhir.get_patient_data(current_patient_id, url)
 
             if patient is None:
                 status_text.value = f"Error: Could not find patient with ID {current_patient_id} at {selected_hospital_name}."
@@ -66,29 +67,23 @@ def build_config_page_content(page: ft.Page, is_initial_setup=False):
                 save_button.disabled = False
                 page.update()
                 return
+            print(f"Fetched patient: {patient} from {selected_hospital_name}")
+            patient_data = fhir.get_patient_data_dict(patient)
+            print(f"Fetched patient data: {patient_data}")
+            #the date comes like this : {'name': 'Alice Smith', 'date_of_birth': datetime.date(1985, 5, 15), 'gender': 'female'}
+            dob = patient_data.get("date_of_birth")
+            if isinstance(dob, date):
+                patient_data["date_of_birth"] = dob.isoformat()
+            dob_split = patient_data.get("date_of_birth", "").split("-")
 
-            patient_data = fhir_utils.get_patient_data_dict(patient)
-
-            page.client_storage.set(NAME_KEY, patient_data.get("name"))
-            
-            raw_dob = patient_data.get("date_of_birth") 
-            dob_iso_to_store = None
-            if raw_dob:
-                if hasattr(raw_dob, 'date'): 
-                    dob_iso_to_store = raw_dob.date.isoformat()
-                elif isinstance(raw_dob, date): 
-                    dob_iso_to_store = raw_dob.isoformat()
-                
-
-            if dob_iso_to_store:
-                page.client_storage.set(DOB_KEY, dob_iso_to_store)
-            elif page.client_storage.contains_key(DOB_KEY):
-                page.client_storage.remove(DOB_KEY)
-
-            page.client_storage.set(GENDER_KEY, patient_data.get("gender"))
             page.client_storage.set(CONFIG_DONE_KEY, True)
             page.client_storage.set(SESSION_HOSPITAL_NAME_KEY, selected_hospital_name)
             page.client_storage.set(SESSION_HOSPITAL_URL_KEY, url)
+            page.client_storage.set(NAME_KEY, patient_data.get("name", "N/A"))
+
+            print(f"Saving patient data: {patient_data}")
+            omop_person = transform_patient(patient_data, current_patient_id)
+            db.create_or_update_person(omop_person)
 
             page.go("/main")
 
@@ -102,7 +97,7 @@ def build_config_page_content(page: ft.Page, is_initial_setup=False):
     save_button.on_click = save_button_click
 
     note_color = ft.Colors.with_opacity(0.7, ft.Colors.ON_SURFACE)
-    patient_name_display = page.client_storage.get(NAME_KEY) 
+    patient_name_display = page.client_storage.get(NAME_KEY) or "N/A"
     
     return [
         ft.Column(

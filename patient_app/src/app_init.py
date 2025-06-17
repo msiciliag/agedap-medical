@@ -18,9 +18,9 @@ sys.path.insert(0, str(project_root_parent))
 
 from db.db_init import schema_manager
 from utils.omop import load_custom_concepts_from_definitions
-from utils.db import DatabaseManager
+from utils import db
 
-def initialize_application(reset_db: bool = False):
+def initialize_application(reset_db: bool = True):
     """
     Initialize the application with new three-layer architecture.
     
@@ -47,7 +47,7 @@ def initialize_application(reset_db: bool = False):
         logger.info("Loading custom concepts...")
         load_custom_concepts_from_definitions()
         
-        stats = DatabaseManager.get_database_stats()
+        stats = db.get_database_stats()
         logger.info(f"Database statistics: {stats}")
         
         logger.info("  Application initialization complete")

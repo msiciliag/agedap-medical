@@ -4,7 +4,6 @@ import os
 from typing import Optional
 
 from fhir.resources.patient import Patient
-from fhir.resources.resource import Resource
 from fhir.resources.bundle import Bundle
 
 def get_patient_data(patient_id: str, base_url: str):

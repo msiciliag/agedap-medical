@@ -8,9 +8,11 @@ from datetime import datetime, date
 from typing import Dict, List, Optional, Any, Tuple
 from pathlib import Path
 import sys
+import logging
 
-from utils.fhir import fhir_data_manager
-from utils.db import DatabaseManager
+from utils import fhir
+from utils import db
+from utils import omop
 from omopmodel import OMOP_5_4_declarative as omop54
 
 # Add project root to path for standard_definitions
@@ -81,7 +83,7 @@ class FHIRToOMOPMapper:
         try:
             # Check if person already exists
             person_id = int(patient_id)
-            person_exists = DatabaseManager.person_exists(person_id)
+            person_exists = db.person_exists(person_id)
             
             if person_exists and not overwrite_existing:
                 logger.info(f"Person {person_id} already exists, skipping unless overwrite_existing=True")
@@ -93,7 +95,7 @@ class FHIRToOMOPMapper:
             demographics_data = None
             
             for service_name in service_names:
-                bundle_data = fhir_data_manager.load_service_bundle(patient_id, service_name)
+                bundle_data = fhir.load_service_bundle(patient_id, service_name)
                 if bundle_data:
                     all_bundle_data[service_name] = bundle_data
                     
@@ -146,6 +148,62 @@ class FHIRToOMOPMapper:
         
         return result
     
+    @staticmethod
+    def map_fhir_demographics_to_omop_person_fields(
+        fhir_demographics: Dict[str, Any], 
+        target_person_id: int
+    ) -> Dict[str, Any]:
+        """
+        Maps extracted FHIR demographic data to a dictionary structured 
+        for the OMOP Person table.
+        """
+        person_omop_data = {
+            'person_id': target_person_id,
+            'gender_concept_id': 0,  # Default to Unknown
+            'year_of_birth': None,
+            'month_of_birth': None,
+            'day_of_birth': None,
+            'birth_datetime': None, # Can be derived if full date is present
+            'race_concept_id': 0,     # Default to Unknown
+            'ethnicity_concept_id': 0, # Default to Unknown
+            'person_source_value': f"FHIR_Patient_{target_person_id}", # Default source value
+            'gender_source_value': None
+        }
+
+        if not fhir_demographics:
+            logger.warning(f"No FHIR demographics data provided for person_id {target_person_id}.")
+            return person_omop_data # Return defaults
+
+        # Map gender
+        gender_str = fhir_demographics.get('gender')
+        person_omop_data['gender_concept_id'] = omop.map_gender_to_concept_id(gender_str)
+        person_omop_data['gender_source_value'] = gender_str if gender_str else None
+        
+        # Map birth date
+        birth_date_input = fhir_demographics.get('date_of_birth')
+        year, month, day = omop.parse_date_to_omop_components(birth_date_input)
+        
+        person_omop_data['year_of_birth'] = year
+        person_omop_data['month_of_birth'] = month
+        person_omop_data['day_of_birth'] = day
+        
+        if year and month and day:
+            try:
+                person_omop_data['birth_datetime'] = datetime(year, month, day)
+            except ValueError:
+                logger.warning(f"Could not form birth_datetime for {target_person_id} from {year}-{month}-{day}")
+                person_omop_data['birth_datetime'] = None
+        
+        # Map name to person_source_value for better traceability
+        name_str = fhir_demographics.get('name')
+        if name_str:
+            person_omop_data['person_source_value'] = name_str # Overwrite default with actual name
+        
+        # Add other default OMOP Person fields as needed, e.g.
+        # location_id, provider_id, care_site_id can be None or defaulted.
+
+        return person_omop_data
+
     def _create_person_record(self, person_id: int, demographics_data: Optional[Dict]) -> Dict[str, Any]:
         """Create OMOP Person record from FHIR demographics."""
         result = {
@@ -199,10 +257,10 @@ class FHIRToOMOPMapper:
                     person_data['person_source_value'] = f"FHIR_{name.replace(' ', '_')}"
             
             # Create or update person record
-            if DatabaseManager.person_exists(person_id):
+            if db.person_exists(person_id):
                 logger.info(f"Person {person_id} already exists, skipping creation")
             else:
-                created_id = DatabaseManager.create_person(person_data)
+                created_id = db.create_person(person_data)
                 if created_id == person_id:
                     logger.info(f"Created person record for ID {person_id}")
                 else:
@@ -257,15 +315,15 @@ class FHIRToOMOPMapper:
             
             # Bulk insert data
             if measurements_to_create:
-                DatabaseManager.bulk_insert_measurements(measurements_to_create)
+                db.bulk_insert_measurements(measurements_to_create)
                 result['measurements_created'] = len(measurements_to_create)
             
             if observations_to_create:
-                DatabaseManager.bulk_insert_observations(observations_to_create)
+                db.bulk_insert_observations(observations_to_create)
                 result['observations_created'] = len(observations_to_create)
             
             if conditions_to_create:
-                DatabaseManager.bulk_insert_conditions(conditions_to_create)
+                db.bulk_insert_conditions(conditions_to_create)
                 result['conditions_created'] = len(conditions_to_create)
             
         except Exception as e:
@@ -403,27 +461,39 @@ class FHIRToOMOPMapper:
 # Global mapper instance
 fhir_to_omop_mapper = FHIRToOMOPMapper()
 
-# Convenience function
-def map_patient_from_fhir_sources(
-    patient_id: str,
-    hapi_base_url: str = None,
-    service_names: List[str] = None,
-    overwrite_existing: bool = False
-) -> Dict[str, Any]:
+def transform_patient(fhir_patient_dict, person_id):
     """
-    Map patient data from FHIR sources to OMOP CDM.
-    
-    Args:
-        patient_id: Patient identifier
-        hapi_base_url: HAPI FHIR server URL (optional)
-        service_names: List of service names to process
-        overwrite_existing: Whether to overwrite existing data
-        
-    Returns:
-        Processing result dictionary
+    Maps a FHIR patient dict to OMOP CDM person fields.
+    Fills in required OMOP fields with defaults if missing.
     """
-    return fhir_to_omop_mapper.process_patient_bundles(
-        patient_id=patient_id,
-        service_names=service_names or ['breast_cancer', 'diabetes'],
-        overwrite_existing=overwrite_existing
-    )
+    gender_str = fhir_patient_dict.get("gender", "").lower()
+    if gender_str == "female":
+        gender_concept_id = 8532
+    elif gender_str == "male":
+        gender_concept_id = 8507
+    else:
+        gender_concept_id = 0
+
+    dob = fhir_patient_dict.get("date_of_birth")
+    if hasattr(dob, "year"):
+        year_of_birth = dob.year
+        month_of_birth = dob.month
+        day_of_birth = dob.day
+    elif isinstance(dob, str) and dob:
+        parts = dob.split("-")
+        year_of_birth = int(parts[0])
+        month_of_birth = int(parts[1]) if len(parts) > 1 else None
+        day_of_birth = int(parts[2]) if len(parts) > 2 else None
+    else:
+        year_of_birth = month_of_birth = day_of_birth = None
+
+    return {
+        "person_id": person_id,
+        "gender_concept_id": gender_concept_id,
+        "gender_source_value": gender_str,
+        "year_of_birth": year_of_birth,
+        "month_of_birth": month_of_birth,
+        "day_of_birth": day_of_birth,
+        "race_concept_id": 0,         
+        "ethnicity_concept_id": 0,    
+    }
