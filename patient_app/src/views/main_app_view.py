@@ -107,7 +107,7 @@ def build_main_app_view(page: ft.Page):
                 alignment=current_alignment,
                 spacing=10
             )
-        elif selected_index == 1: # My Data
+        elif selected_index == 1:
             content_column = ft.Column(
                 build_my_data_page_content(page), 
                 horizontal_alignment=ft.CrossAxisAlignment.STRETCH,

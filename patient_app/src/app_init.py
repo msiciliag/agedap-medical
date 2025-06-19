@@ -56,5 +56,3 @@ def initialize_application(reset_db: bool = True):
         logger.error(f" Application initialization failed: {e}")
         raise
 
-if __name__ == '__main__':
-    initialize_application(reset_db=True)

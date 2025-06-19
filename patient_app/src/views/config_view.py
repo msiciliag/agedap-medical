@@ -5,7 +5,7 @@ from app_config import (
     SESSION_HOSPITAL_NAME_KEY, SESSION_HOSPITAL_URL_KEY, NAME_KEY
 )
 from utils import fhir, db
-from utils.data_mapper import transform_patient
+from utils.data_mapper import transform_patient, transform_bundle_to_omop
 
 def build_config_page_content(page: ft.Page, is_initial_setup=False):
     session_patient_id = page.client_storage.get(SESSION_PATIENT_ID_KEY)
@@ -70,11 +70,9 @@ def build_config_page_content(page: ft.Page, is_initial_setup=False):
             print(f"Fetched patient: {patient} from {selected_hospital_name}")
             patient_data = fhir.get_patient_data_dict(patient)
             print(f"Fetched patient data: {patient_data}")
-            #the date comes like this : {'name': 'Alice Smith', 'date_of_birth': datetime.date(1985, 5, 15), 'gender': 'female'}
             dob = patient_data.get("date_of_birth")
             if isinstance(dob, date):
                 patient_data["date_of_birth"] = dob.isoformat()
-            dob_split = patient_data.get("date_of_birth", "").split("-")
 
             page.client_storage.set(CONFIG_DONE_KEY, True)
             page.client_storage.set(SESSION_HOSPITAL_NAME_KEY, selected_hospital_name)
@@ -83,7 +81,19 @@ def build_config_page_content(page: ft.Page, is_initial_setup=False):
 
             print(f"Saving patient data: {patient_data}")
             omop_person = transform_patient(patient_data, current_patient_id)
+            print(f"Transformed OMOP person: {omop_person}")
             db.create_or_update_person(omop_person)
+
+            data_bundles = fhir.load_fhir_bundles(current_patient_id)
+            print(f"Loaded (but not saved) {len(data_bundles)} FHIR bundles for patient {current_patient_id}")
+            #transform each bundle into OMOP resources and save them
+            for bundle in data_bundles:
+                print(f"Processing bundle: {bundle['filename']}")
+                omop_resources = transform_bundle_to_omop(bundle['bundle'], current_patient_id)
+                print(f"Transformed {len(omop_resources)} OMOP resources from bundle {bundle['filename']}")
+                print(omop_resources)
+                for resource in omop_resources:
+                    db.create_or_update_resource(resource)
 
             page.go("/main")
 

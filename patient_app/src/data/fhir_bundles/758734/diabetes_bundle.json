@@ -20,14 +20,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://loinc.org",
-              "code": "HighBP",
-              "display": "High Blood Pressure"
+              "system": "http://agedap_medical.com/codes/cdc-diabetes-indicators",
+              "code": "HighBP"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/1"
+          "reference": "urn:uuid:patient-758718"
         },
         "effectiveDateTime": "2025-06-05T08:00:00Z",
         "valueQuantity": {
@@ -60,14 +59,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://loinc.org",
-              "code": "HighChol",
-              "display": "High Cholesterol"
+              "system": "http://agedap_medical.com/codes/cdc-diabetes-indicators",
+              "code": "HighChol"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/1"
+          "reference": "urn:uuid:patient-758718"
         },
         "effectiveDateTime": "2025-06-05T08:00:00Z",
         "valueQuantity": {
@@ -100,14 +98,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://loinc.org",
-              "code": "CholCheck",
-              "display": "Cholesterol Check"
+              "system": "http://agedap_medical.com/codes/cdc-diabetes-indicators",
+              "code": "CholCheck"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/1"
+          "reference": "urn:uuid:patient-758718"
         },
         "effectiveDateTime": "2025-06-05T08:00:00Z",
         "valueQuantity": {
@@ -140,14 +137,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://loinc.org",
-              "code": "BMI",
-              "display": "Body Mass Index"
+              "system": "http://agedap_medical.com/codes/cdc-diabetes-indicators",
+              "code": "BMI"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/1"
+          "reference": "urn:uuid:patient-758718"
         },
         "effectiveDateTime": "2025-06-05T08:00:00Z",
         "valueQuantity": {
@@ -180,14 +176,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://loinc.org",
-              "code": "Smoker",
-              "display": "Smoking Status"
+              "system": "http://agedap_medical.com/codes/cdc-diabetes-indicators",
+              "code": "Smoker"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/1"
+          "reference": "urn:uuid:patient-758718"
         },
         "effectiveDateTime": "2025-06-05T08:00:00Z",
         "valueQuantity": {
@@ -220,14 +215,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://loinc.org",
-              "code": "Stroke",
-              "display": "History of Stroke"
+              "system": "http://agedap_medical.com/codes/cdc-diabetes-indicators",
+              "code": "Stroke"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/1"
+          "reference": "urn:uuid:patient-758718"
         },
         "effectiveDateTime": "2025-06-05T08:00:00Z",
         "valueQuantity": {
@@ -260,14 +254,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://loinc.org",
-              "code": "HeartDiseaseorAttack",
-              "display": "History of Heart Disease or Attack"
+              "system": "http://agedap_medical.com/codes/cdc-diabetes-indicators",
+              "code": "HeartDiseaseorAttack"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/1"
+          "reference": "urn:uuid:patient-758718"
         },
         "effectiveDateTime": "2025-06-05T08:00:00Z",
         "valueQuantity": {
@@ -300,14 +293,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://loinc.org",
-              "code": "PhysActivity",
-              "display": "Physical Activity"
+              "system": "http://agedap_medical.com/codes/cdc-diabetes-indicators",
+              "code": "PhysActivity"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/1"
+          "reference": "urn:uuid:patient-758718"
         },
         "effectiveDateTime": "2025-06-05T08:00:00Z",
         "valueQuantity": {
@@ -340,14 +332,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://loinc.org",
-              "code": "Fruits",
-              "display": "Fruit Consumption"
+              "system": "http://agedap_medical.com/codes/cdc-diabetes-indicators",
+              "code": "Fruits"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/1"
+          "reference": "urn:uuid:patient-758718"
         },
         "effectiveDateTime": "2025-06-05T08:00:00Z",
         "valueQuantity": {
@@ -380,14 +371,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://loinc.org",
-              "code": "Veggies",
-              "display": "Vegetable Consumption"
+              "system": "http://agedap_medical.com/codes/cdc-diabetes-indicators",
+              "code": "Veggies"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/1"
+          "reference": "urn:uuid:patient-758718"
         },
         "effectiveDateTime": "2025-06-05T08:00:00Z",
         "valueQuantity": {
@@ -420,14 +410,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://loinc.org",
-              "code": "HvyAlcoholConsump",
-              "display": "Heavy Alcohol Consumption"
+              "system": "http://agedap_medical.com/codes/cdc-diabetes-indicators",
+              "code": "HvyAlcoholConsump"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/1"
+          "reference": "urn:uuid:patient-758718"
         },
         "effectiveDateTime": "2025-06-05T08:00:00Z",
         "valueQuantity": {
@@ -460,14 +449,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://loinc.org",
-              "code": "AnyHealthcare",
-              "display": "Access to Healthcare"
+              "system": "http://agedap_medical.com/codes/cdc-diabetes-indicators",
+              "code": "AnyHealthcare"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/1"
+          "reference": "urn:uuid:patient-758718"
         },
         "effectiveDateTime": "2025-06-05T08:00:00Z",
         "valueQuantity": {
@@ -500,14 +488,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://loinc.org",
-              "code": "NoDocbcCost",
-              "display": "No Doctor Visit due to Cost"
+              "system": "http://agedap_medical.com/codes/cdc-diabetes-indicators",
+              "code": "NoDocbcCost"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/1"
+          "reference": "urn:uuid:patient-758718"
         },
         "effectiveDateTime": "2025-06-05T08:00:00Z",
         "valueQuantity": {
@@ -540,14 +527,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://loinc.org",
-              "code": "GenHlth",
-              "display": "General Health"
+              "system": "http://agedap_medical.com/codes/cdc-diabetes-indicators",
+              "code": "GenHlth"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/1"
+          "reference": "urn:uuid:patient-758718"
         },
         "effectiveDateTime": "2025-06-05T08:00:00Z",
         "valueQuantity": {
@@ -580,14 +566,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://loinc.org",
-              "code": "MentHlth",
-              "display": "Mental Health"
+              "system": "http://agedap_medical.com/codes/cdc-diabetes-indicators",
+              "code": "MentHlth"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/1"
+          "reference": "urn:uuid:patient-758718"
         },
         "effectiveDateTime": "2025-06-05T08:00:00Z",
         "valueQuantity": {
@@ -620,14 +605,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://loinc.org",
-              "code": "PhysHlth",
-              "display": "Physical Health"
+              "system": "http://agedap_medical.com/codes/cdc-diabetes-indicators",
+              "code": "PhysHlth"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/1"
+          "reference": "urn:uuid:patient-758718"
         },
         "effectiveDateTime": "2025-06-05T08:00:00Z",
         "valueQuantity": {
@@ -660,14 +644,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://loinc.org",
-              "code": "DiffWalk",
-              "display": "Difficulty Walking"
+              "system": "http://agedap_medical.com/codes/cdc-diabetes-indicators",
+              "code": "DiffWalk"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/1"
+          "reference": "urn:uuid:patient-758718"
         },
         "effectiveDateTime": "2025-06-05T08:00:00Z",
         "valueQuantity": {
@@ -700,14 +683,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://loinc.org",
-              "code": "Sex",
-              "display": "Sex"
+              "system": "http://agedap_medical.com/codes/cdc-diabetes-indicators",
+              "code": "Sex"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/1"
+          "reference": "urn:uuid:patient-758718"
         },
         "effectiveDateTime": "2025-06-05T08:00:00Z",
         "valueQuantity": {
@@ -740,14 +722,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://loinc.org",
-              "code": "Age",
-              "display": "Age Category"
+              "system": "http://agedap_medical.com/codes/cdc-diabetes-indicators",
+              "code": "Age"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/1"
+          "reference": "urn:uuid:patient-758718"
         },
         "effectiveDateTime": "2025-06-05T08:00:00Z",
         "valueQuantity": {
@@ -780,14 +761,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://loinc.org",
-              "code": "Education",
-              "display": "Education Level"
+              "system": "http://agedap_medical.com/codes/cdc-diabetes-indicators",
+              "code": "Education"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/1"
+          "reference": "urn:uuid:patient-758718"
         },
         "effectiveDateTime": "2025-06-05T08:00:00Z",
         "valueQuantity": {
@@ -820,14 +800,13 @@
         "code": {
           "coding": [
             {
-              "system": "http://loinc.org",
-              "code": "Income",
-              "display": "Income Category"
+              "system": "http://agedap_medical.com/codes/cdc-diabetes-indicators",
+              "code": "Income"
             }
           ]
         },
         "subject": {
-          "reference": "Patient/1"
+          "reference": "urn:uuid:patient-758718"
         },
         "effectiveDateTime": "2025-06-05T08:00:00Z",
         "valueQuantity": {

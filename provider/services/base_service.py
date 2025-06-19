@@ -66,20 +66,6 @@ class AIServiceEndpoint(ABC):
         pass
 
     @abstractmethod
-    def get_fhir_requirements(self):
-        """
-        Subclasses must implement this to define service-specific FHIR requirements.
-        :return: A list of dictionaries describing input variables in FHIR terms.
-        e.g.,
-        [
-            {'name': 'Descriptive Name', 'fhir_resource_type': 'Observation', 
-             'fhir_code': {'system': 'uri_del_sistema', 'code': 'codigo_fhir', 'display': 'Optional Display Name'}, 
-             'fhir_value_type': 'valueQuantity'}
-        ]
-        """
-        pass
-
-    @abstractmethod
     def get_additional_service_info(self):
         """
         Subclasses must implement this to provide any other service-specific metadata.
@@ -139,7 +125,6 @@ class AIServiceEndpoint(ABC):
     def add_routes(self):
         """Add all relevant routes for the service."""
         self.app.add_url_rule("/omop_requirements", view_func=self.get_omop_requirements, methods=['GET'])
-        self.app.add_url_rule("/fhir_requirements", view_func=self.get_fhir_requirements, methods=['GET'])
         self.app.add_url_rule("/additional_service_info", view_func=self.get_additional_service_info, methods=["GET"])
         self.app.add_url_rule("/predict", view_func=self.predict, methods=["POST"])
 

@@ -58,15 +58,11 @@ ALL_DEFINITIONS = {
     "patient_age": {"source_value": "Age", "domain": "Observation", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "is_person_demographic": True, "omop_concept_id": 2000000044},
     "education_level_scale_1_6": {"source_value": "Education", "domain": "Observation", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000045},
     "income_level_scale_1_8": {"source_value": "Income", "domain": "Observation", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000046},
-    
-    # Condiciones
-    "diabetes_status": {"source_value": "Diabetes_012", "domain": "Condition", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000047},
-    "high_blood_pressure_status": {"source_value": "HighBP", "domain": "Condition", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000048},
-    "high_cholesterol_status": {"source_value": "HighChol", "domain": "Condition", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000049},
-    "stroke_history": {"source_value": "Stroke", "domain": "Condition", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000050},
-    "heart_disease_or_attack_history": {"source_value": "HeartDiseaseorAttack", "domain": "Condition", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000051},
-    
-    # Medición
+    "diabetes_status": {"source_value": "Diabetes_012", "domain": "Observation", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000047},
+    "high_blood_pressure_status": {"source_value": "HighBP", "domain": "Observation", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000048},
+    "high_cholesterol_status": {"source_value": "HighChol", "domain": "Observation", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000049},
+    "stroke_history": {"source_value": "Stroke", "domain": "Observation", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000050},
+    "heart_disease_or_attack_history": {"source_value": "HeartDiseaseorAttack", "domain": "Observation", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000051},
     "body_mass_index": {"source_value": "BMI", "domain": "Measurement", "fhir_system": f"{FHIR_CUSTOM_CODE_SYSTEM_BASE_URI}cdc-diabetes-indicators", "omop_concept_id": 2000000052}
 }
 

@@ -4,19 +4,6 @@
   "type": "collection",
   "entry": [
     {
-      "fullUrl": "urn:uuid:patient-758718",
-      "resource": {
-        "resourceType": "Patient",
-        "id": "patient-758718",
-        "identifier": [
-          {
-            "system": "http://agedap_medical.com/codes/breast-cancer-screening",
-            "value": "758718"
-          }
-        ]
-      }
-    },
-    {
       "fullUrl": "urn:uuid:obs-radius-mean",
       "resource": {
         "resourceType": "Observation",
@@ -36,7 +23,8 @@
         },
         "valueQuantity": {
           "value": 17.99
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -59,7 +47,8 @@
         },
         "valueQuantity": {
           "value": 10.38
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -82,7 +71,8 @@
         },
         "valueQuantity": {
           "value": 122.8
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -105,7 +95,8 @@
         },
         "valueQuantity": {
           "value": 1001.0
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -128,7 +119,8 @@
         },
         "valueQuantity": {
           "value": 0.1184
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -151,7 +143,8 @@
         },
         "valueQuantity": {
           "value": 0.2776
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -174,7 +167,8 @@
         },
         "valueQuantity": {
           "value": 0.3001
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -197,7 +191,8 @@
         },
         "valueQuantity": {
           "value": 0.1471
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -220,7 +215,8 @@
         },
         "valueQuantity": {
           "value": 0.2419
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -243,7 +239,8 @@
         },
         "valueQuantity": {
           "value": 0.07871
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -266,7 +263,8 @@
         },
         "valueQuantity": {
           "value": 1.095
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -289,7 +287,8 @@
         },
         "valueQuantity": {
           "value": 0.9053
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -312,7 +311,8 @@
         },
         "valueQuantity": {
           "value": 8.589
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -335,7 +335,8 @@
         },
         "valueQuantity": {
           "value": 153.4
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -358,7 +359,8 @@
         },
         "valueQuantity": {
           "value": 0.006399
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -381,7 +383,8 @@
         },
         "valueQuantity": {
           "value": 0.04904
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -404,7 +407,8 @@
         },
         "valueQuantity": {
           "value": 0.05373
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -427,7 +431,8 @@
         },
         "valueQuantity": {
           "value": 0.01587
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -450,7 +455,8 @@
         },
         "valueQuantity": {
           "value": 0.03003
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -473,7 +479,8 @@
         },
         "valueQuantity": {
           "value": 0.006193
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -496,7 +503,8 @@
         },
         "valueQuantity": {
           "value": 25.38
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -519,7 +527,8 @@
         },
         "valueQuantity": {
           "value": 17.33
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -542,7 +551,8 @@
         },
         "valueQuantity": {
           "value": 184.6
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -565,7 +575,8 @@
         },
         "valueQuantity": {
           "value": 2019.0
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -588,7 +599,8 @@
         },
         "valueQuantity": {
           "value": 0.1622
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -611,7 +623,8 @@
         },
         "valueQuantity": {
           "value": 0.6656
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -634,7 +647,8 @@
         },
         "valueQuantity": {
           "value": 0.7119
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -657,7 +671,8 @@
         },
         "valueQuantity": {
           "value": 0.2654
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -680,7 +695,8 @@
         },
         "valueQuantity": {
           "value": 0.4601
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     },
     {
@@ -703,7 +719,8 @@
         },
         "valueQuantity": {
           "value": 0.1189
-        }
+        },
+        "effectiveDateTime": "2023-04-07T00:00:00Z"
       }
     }
   ]

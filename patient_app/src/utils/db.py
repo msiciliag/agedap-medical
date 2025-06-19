@@ -62,20 +62,28 @@ def get_patient_measurements(
     patient_id: int, 
     concept_ids: List[int] = None,
     limit: int = 100
-) -> List[omop54.Measurement]:
-    """Get measurements for a patient."""
+) -> List[Dict[str, Any]]:
     try:
         with get_db_session() as session:
             query = session.query(omop54.Measurement).filter(
                 omop54.Measurement.person_id == patient_id
             )
-            
             if concept_ids:
                 query = query.filter(omop54.Measurement.measurement_concept_id.in_(concept_ids))
-                
-            return query.order_by(omop54.Measurement.measurement_datetime.desc()).limit(limit).all()
+            results = query.order_by(omop54.Measurement.measurement_datetime.desc()).limit(limit).all()
+            # Convert ORM objects to dicts
+            dicts = [
+                {
+                    "measurement_id": m.measurement_id,
+                    "person_id": m.person_id,
+                    "measurement_concept_id": m.measurement_concept_id,
+                    "measurement_datetime": m.measurement_datetime,
+                    "value_as_number": m.value_as_number,
+                }
+                for m in results
+            ]
+            return dicts
     except Exception as e:
-        logger.error(f"Error fetching measurements for patient {patient_id}: {e}")
         return []
 
 def get_concept_by_id(concept_id: int) -> Optional[omop54.Concept]:
@@ -109,87 +117,79 @@ def get_patient_observations(
     patient_id: int,
     concept_ids: List[int] = None,
     limit: int = 100
-) -> List[omop54.Observation]:
-    """Get observations for a patient."""
+) -> List[Dict[str, Any]]:
     try:
         with get_db_session() as session:
             query = session.query(omop54.Observation).filter(
                 omop54.Observation.person_id == patient_id
             )
-            
             if concept_ids:
                 query = query.filter(omop54.Observation.observation_concept_id.in_(concept_ids))
-                
-            return query.order_by(omop54.Observation.observation_datetime.desc()).limit(limit).all()
+            results = query.order_by(omop54.Observation.observation_datetime.desc()).limit(limit).all()
+            dicts = [
+                {
+                    "observation_id": o.observation_id,
+                    "person_id": o.person_id,
+                    "observation_concept_id": o.observation_concept_id,
+                    "observation_datetime": o.observation_datetime,
+                    "value_as_number": o.value_as_number,
+                }
+                for o in results
+            ]
+            return dicts
     except Exception as e:
-        logger.error(f"Error fetching observations for patient {patient_id}: {e}")
+        logger.error(f"[db.py] Error fetching observations for patient {patient_id}: {e}")
         return []
 
 def get_patient_conditions(
     patient_id: int,
     concept_ids: List[int] = None,
     limit: int = 100
-) -> List[omop54.ConditionOccurrence]:
-    """Get conditions for a patient."""
+) -> List[Dict[str, Any]]:
     try:
         with get_db_session() as session:
             query = session.query(omop54.ConditionOccurrence).filter(
                 omop54.ConditionOccurrence.person_id == patient_id
             )
-            
             if concept_ids:
                 query = query.filter(omop54.ConditionOccurrence.condition_concept_id.in_(concept_ids))
-                
-            return query.order_by(omop54.ConditionOccurrence.condition_start_date.desc()).limit(limit).all()
+            results = query.order_by(omop54.ConditionOccurrence.condition_start_date.desc()).limit(limit).all()
+            dicts = [
+                {
+                    "condition_occurrence_id": c.condition_occurrence_id,
+                    "person_id": c.person_id,
+                    "condition_concept_id": c.condition_concept_id,
+                    "condition_start_date": c.condition_start_date,
+                }
+                for c in results
+            ]
+            return dicts
     except Exception as e:
-        logger.error(f"Error fetching conditions for patient {patient_id}: {e}")
+        logger.error(f"[db.py] Error fetching conditions for patient {patient_id}: {e}")
         return []
 
-def get_person_by_id(person_id: int) -> Optional[omop54.Person]:
-    """Get person by ID."""
+def get_person_by_id(person_id: int) -> Optional[Dict[str, Any]]:
+    """Get person by ID as a dictionary."""
     try:
         with get_db_session() as session:
-            return session.query(omop54.Person).filter(
+            person = session.query(omop54.Person).filter(
                 omop54.Person.person_id == person_id
             ).first()
+            if person:
+                return {
+                    "person_id": person.person_id,
+                    "gender_concept_id": person.gender_concept_id,
+                    "gender_source_value": person.gender_source_value,
+                    "year_of_birth": person.year_of_birth,
+                    "month_of_birth": person.month_of_birth,
+                    "day_of_birth": person.day_of_birth,
+                    # Add more fields if needed
+                }
     except Exception as e:
         logger.error(f"Error fetching person {person_id}: {e}")
         return None
 
 # ===== DATA LOADING FUNCTIONS =====
-
-def bulk_insert_conditions(conditions_data: List[dict]):
-    """Bulk insert conditions."""
-    try:
-        with get_db_session() as session:
-            conditions = [omop54.ConditionOccurrence(**data) for data in conditions_data]
-            session.add_all(conditions)
-            logger.info(f"Inserted {len(conditions)} conditions")
-    except Exception as e:
-        logger.error(f"Error bulk inserting conditions: {e}")
-        raise
-    
-def bulk_insert_measurements(measurements_data: List[dict]):
-    """Bulk insert measurements."""
-    try:
-        with get_db_session() as session:
-            measurements = [omop54.Measurement(**data) for data in measurements_data]
-            session.add_all(measurements)
-            logger.info(f"Inserted {len(measurements)} measurements")
-    except Exception as e:
-        logger.error(f"Error bulk inserting measurements: {e}")
-        raise
-
-def bulk_insert_observations(observations_data: List[dict]):
-    """Bulk insert observations."""
-    try:
-        with get_db_session() as session:
-            observations = [omop54.Observation(**data) for data in observations_data]
-            session.add_all(observations)
-            logger.info(f"Inserted {len(observations)} observations")
-    except Exception as e:
-        logger.error(f"Error bulk inserting observations: {e}")
-        raise
 
 def bulk_insert_concepts(concepts_data: List[dict]):
     """Bulk insert concepts."""
@@ -254,7 +254,41 @@ def create_or_update_person(person_omop_data: Dict[str, Any]) -> Optional[omop54
         logger.error(f"Error creating or updating person with ID {person_id}: {e}")
         return None
 
-# Backward compatibility functions
+def create_or_update_resource(
+    resource_data: Dict[str, Any]
+    ) -> Optional[Any]:
+    """
+    Creates or updates a resource (Condition, Measurement, Observation) in the OMOP database.
+    
+    Args:
+        resource_data: Dictionary containing the resource data.
+
+    Returns:
+        The created or updated resource object, or None if an error occurs.
+    """
+    try:
+        resource_type = resource_data.get('__resource_type__')
+        resource_data.pop('__resource_type__', None)
+        with get_db_session() as session:
+            if resource_type == 'Condition':
+                resource = omop54.ConditionOccurrence(**resource_data)
+            elif resource_type == 'Measurement':
+                resource = omop54.Measurement(**resource_data)
+            elif resource_type == 'Observation':
+                resource = omop54.Observation(**resource_data)
+            else:
+                logger.error(f"Unsupported resource type: {resource_type}")
+                return None
+            
+            session.add(resource)
+            session.flush() 
+            return resource
+
+    except Exception as e:
+        logger.error(f"Error creating or updating resource: {e}")
+        return None
+
+
 def get_session():
     """Backward compatibility with old config.py"""
     return schema_manager.SessionLocal()

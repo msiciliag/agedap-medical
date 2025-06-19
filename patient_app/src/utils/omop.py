@@ -3,17 +3,16 @@ High-level OMOP data processing and schema management.
 Handles data formatting, schema validation, and business logic for ML models.
 """
 import numpy as np
-from datetime import datetime, timedelta, date
-from typing import Dict, List, Optional, Union, Any, Tuple
+from datetime import datetime, date
+from typing import Dict, Optional, Any, Tuple
 import logging
 import sys
 from pathlib import Path
 
 from utils import db
 from omopmodel import OMOP_5_4_declarative as omop54
-from datetime import date, datetime # Ensure these are imported
+from datetime import date, datetime 
 
-# Add project root to path for standard_definitions
 project_root = Path(__file__).resolve().parent.parent.parent.parent
 sys.path.insert(0, str(project_root))
 
@@ -134,64 +133,48 @@ def _generate_mock_data(schema: Dict, person_id: Optional[int] = None) -> np.arr
     return np.array([mock_values]) if mock_values else np.array([[]])
 
 def extract_patient_data(schema: Dict, person_id: int) -> np.array:
-    """
-    Extract patient data according to schema.
-    """
-    logger.info(f"Extracting data for person_id: {person_id}")
-    
-    # Validate schema
-    validation = validate_schema(schema) # Updated call
+    validation = validate_schema(schema)
     if not validation['valid']:
         logger.error(f"Schema validation failed: {validation['errors']}")
-        return _generate_mock_data(schema, person_id) # Updated call
-    
+        return _generate_mock_data(schema, person_id)
     all_feature_values = []
     person_record_cache = None
-    
-    # Determine processing order based on schema content
     domain_processing_order = ["measurement", "condition", "observation"]
     if any(k in schema for k in ["observation", "condition"]):
         domain_processing_order = ["observation", "condition", "measurement"]
     elif "measurement" in schema:
         domain_processing_order = ["measurement"]
-    
     try:
         for domain_key in domain_processing_order:
             if domain_key not in schema:
                 continue
-                
             feature_definitions = schema[domain_key]
-            logger.debug(f"Processing domain: {domain_key} with {len(feature_definitions)} features")
-            
             for feature_info in feature_definitions:
                 value_name = feature_info.get('value_name', '')
                 is_demographic = feature_info.get("is_person_demographic", False)
-                
                 # Handle demographic features
                 if is_demographic or value_name in ["patient_sex", "patient_age"]:
                     if person_record_cache is None:
                         person_record_cache = db.get_person_by_id(person_id)
-                    
                     if not person_record_cache:
                         logger.warning(f"Person {person_id} not found for demographic feature {value_name}")
                         all_feature_values.append(0.0)
                         continue
-                    
                     if value_name == "patient_sex":
                         # OMOP: FEMALE = 8532, MALE = 8507
                         # UCI: 0 = female, 1 = male
-                        value = 0.0 if person_record_cache.gender_concept_id == 8532 else 1.0
+                        value = 0.0 if person_record_cache.get("gender_concept_id") == 8532 else 1.0
                         all_feature_values.append(value)
                     elif value_name == "patient_age":
-                        if person_record_cache.year_of_birth:
+                        if person_record_cache.get("year_of_birth"):
                             try:
                                 birth_date = datetime(
-                                    person_record_cache.year_of_birth,
-                                    person_record_cache.month_of_birth or 1,
-                                    person_record_cache.day_of_birth or 1
+                                    person_record_cache.get("year_of_birth"),
+                                    person_record_cache.get("month_of_birth") or 1,
+                                    person_record_cache.get("day_of_birth") or 1
                                 )
-                                raw_age = _calculate_age(birth_date) # Updated call
-                                age_category = _map_age_to_uci_category(raw_age) # Updated call
+                                raw_age = _calculate_age(birth_date)
+                                age_category = _map_age_to_uci_category(raw_age)
                                 all_feature_values.append(age_category)
                             except ValueError:
                                 logger.warning(f"Invalid birth date for person {person_id}")
@@ -202,20 +185,16 @@ def extract_patient_data(schema: Dict, person_id: int) -> np.array:
                         all_feature_values.append(0.0)
                     continue
                 
-                # Handle non-demographic features
                 concept_id = feature_info.get(f"{domain_key}_concept_id")
-                source_value = feature_info.get(f"{domain_key}_source_value")
-                
                 retrieved_value = 0.0
-                
                 if domain_key == "measurement":
                     measurements = db.get_patient_measurements(
                         person_id, 
                         [concept_id] if concept_id else None,
                         limit=1
                     )
-                    if measurements and measurements[0].value_as_number is not None:
-                        retrieved_value = float(measurements[0].value_as_number)
+                    if measurements and measurements[0].get("value_as_number") is not None:
+                        retrieved_value = float(measurements[0]["value_as_number"])
                 
                 elif domain_key == "observation":
                     observations = db.get_patient_observations(
@@ -224,11 +203,11 @@ def extract_patient_data(schema: Dict, person_id: int) -> np.array:
                         limit=1
                     )
                     if observations:
-                        if observations[0].value_as_number is not None:
-                            retrieved_value = float(observations[0].value_as_number)
+                        if observations[0].get("value_as_number") is not None:
+                            retrieved_value = float(observations[0]["value_as_number"])
                         else:
                             retrieved_value = 1.0  # Present
-                
+
                 elif domain_key == "condition":
                     conditions = db.get_patient_conditions(
                         person_id,
@@ -240,17 +219,14 @@ def extract_patient_data(schema: Dict, person_id: int) -> np.array:
                 all_feature_values.append(retrieved_value)
         
         if not all_feature_values:
-            logger.info("No values extracted, using mock data")
-            return _generate_mock_data(schema, person_id) # Updated call
+            return _generate_mock_data(schema, person_id)
         
-        logger.debug(f"Extracted {len(all_feature_values)} feature values")
         return np.array([all_feature_values])
         
     except Exception as e:
         logger.error(f"Error extracting data: {e}")
-        return _generate_mock_data(schema, person_id) # Updated call
+        return _generate_mock_data(schema, person_id)
 
-# MAINTAIN BACKWARD COMPATIBILITY - Exact same function signature
 def get_data(schema: Dict, person_id: Optional[int] = None) -> np.array:
     """
     BACKWARD COMPATIBLE function that maintains exact same interface.
@@ -258,9 +234,9 @@ def get_data(schema: Dict, person_id: Optional[int] = None) -> np.array:
     """
     if person_id is None:
         logger.warning("No person_id provided to get_data")
-        return _generate_mock_data(schema, person_id) # Updated call
+        return _generate_mock_data(schema, person_id) 
     
-    return extract_patient_data(schema, person_id) # Updated call
+    return extract_patient_data(schema, person_id) 
 
 # Additional utility functions for data loading and transformation
 def load_custom_concepts_from_definitions():

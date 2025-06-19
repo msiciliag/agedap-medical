@@ -1,7 +1,10 @@
 import requests
 import json
 import os
+from pathlib import Path
 from typing import Optional
+
+from app_config import BUNDLES_DIR
 
 from fhir.resources.patient import Patient
 from fhir.resources.bundle import Bundle
@@ -57,7 +60,7 @@ def get_patient_data_dict(patient):
 
     return patient_data
 
-def load_bundle_from_file(file_path: str) -> Optional[Bundle]:
+def _load_bundle_from_file(file_path: str) -> Optional[Bundle]:
     """
     Loads a FHIR Bundle resource from a JSON file.
 
@@ -95,3 +98,42 @@ def load_bundle_from_file(file_path: str) -> Optional[Bundle]:
     except Exception as e:
         print(f"An unexpected error occurred while parsing FHIR Bundle from {file_path}: {e}")
         return None
+
+def load_fhir_bundles(patient_id) -> list:
+    """
+    Load all FHIR bundles for a given patient_id from the configured directory.
+    Prints summary information about each bundle.
+    Returns a list of loaded bundles with metadata.
+    """
+    bundles_dir = Path(BUNDLES_DIR) / patient_id
+
+    print(f"Looking for FHIR bundles in: {bundles_dir}")
+
+    if not bundles_dir.exists():
+        print(f"Error: Directory {bundles_dir} does not exist")
+        return []
+
+    loaded_bundles = []
+    json_files = list(bundles_dir.glob("*.json"))
+
+    if not json_files:
+        print("No JSON files found in the bundles directory")
+        return []
+
+    print(f"Found {len(json_files)} JSON files")
+
+    for json_file in json_files:
+        print(f"\n--- Loading {json_file.name} ---")
+        bundle = _load_bundle_from_file(str(json_file))
+
+        if bundle:
+            loaded_bundles.append({
+                'filename': json_file.name,
+                'bundle': bundle,
+                'path': str(json_file)
+            })
+            print(f"Successfully loaded bundle: {json_file.name}")
+        else:
+            print(f"Failed to load bundle: {json_file.name}")
+
+    return loaded_bundles

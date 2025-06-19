@@ -10,7 +10,7 @@ class BaseClient:
     """
 
     def __init__(self, base_url, fhe_directory, key_directory):
-        """
+        """dwad
         Initialize the API client with the base URL and FHE model client.
 
         :param base_url: The base URL of the REST API.

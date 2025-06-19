@@ -5,6 +5,7 @@ from utils.omop import get_data
 from app_config import (
     SESSION_PATIENT_ID_KEY
 )
+import pprint
 
 def build_dynamic_service_view(page: ft.Page, service_key: str):
     """
@@ -49,10 +50,11 @@ def build_dynamic_service_view(page: ft.Page, service_key: str):
                 page.update()
 
                 scheme = client.request_info()
+                print(f"Scheme received from service: {pprint.pformat(scheme)}")
                 current_omop_person_id = page.client_storage.get(SESSION_PATIENT_ID_KEY)
-                omop_data = get_data(scheme, person_id=current_omop_person_id) 
-                print(f"OMOP Data: {omop_data}")
-                
+                print(f"Using person_id: {current_omop_person_id}")
+                omop_data = get_data(scheme, person_id=current_omop_person_id)
+                print(f"OMOP Data returned: {omop_data}")
                 prediction = client.request_prediction(omop_data)
                 print(f"Prediction result: {prediction}")
                 if prediction: 
@@ -69,10 +71,13 @@ def build_dynamic_service_view(page: ft.Page, service_key: str):
                         "and it is recommended to continue regular check-ups with your healthcare provider."
                     )
             except AttributeError as ae:
+                print(f"AttributeError: {ae}")
                 prediction_result_text.value = f"Error: A required method might be missing. {ae}"
             except ImportError:
+                print("ImportError: Failed to use omop_utils. Import issue?")
                 prediction_result_text.value = "Error: Failed to use omop_utils. Import issue?"
             except Exception as ex:
+                print(f"Exception during prediction: {ex}")
                 prediction_result_text.value = f"Error during prediction: {str(ex)}"
             page.update()
 

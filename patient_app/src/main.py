@@ -24,8 +24,6 @@ def main(page: ft.Page):
     page.go("/login")
 
 if __name__ == "__main__":
-    # Initialize the application (database, etc.)
     initialize_application()
     
-    # Start the Flet app
     ft.app(target=main)
