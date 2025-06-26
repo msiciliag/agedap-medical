@@ -6,6 +6,7 @@ Accesses 1 of each custom concept defined in terminology_definitions.py.
 import sys
 import os
 import sqlite3
+import logging
 
 # Adjust path to import project modules
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
@@ -14,40 +15,42 @@ from utils import db
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../standard_definitions')))
 from terminology_definitions import ALL_DEFINITIONS
 
+logger = logging.getLogger(__name__)
+
 def test_db_access():
     person_id = 758718
     concept_ids = None 
 
-    print("Testing get_patient_measurements (utils.db)...")
+    logger.info("Testing get_patient_measurements (utils.db)...")
     measurements = db.get_patient_measurements(person_id, concept_ids)
-    print(f"Measurements (utils.db): {measurements}")
+    logger.info(f"Measurements (utils.db): {measurements}")
 
-    print("Testing get_patient_observations (utils.db)...")
+    logger.info("Testing get_patient_observations (utils.db)...")
     observations = db.get_patient_observations(person_id, concept_ids)
-    print(f"Observations (utils.db): {observations}")
+    logger.info(f"Observations (utils.db): {observations}")
 
-    print("Testing get_patient_conditions (utils.db)...")
+    logger.info("Testing get_patient_conditions (utils.db)...")
     conditions = db.get_patient_conditions(person_id, concept_ids)
-    print(f"Conditions (utils.db): {conditions}")
+    logger.info(f"Conditions (utils.db): {conditions}")
 
     # Direct SQLite access
     db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../src/db/omop_cdm.db'))
-    print(f"\nDirect SQLite access to: {db_path}")
+    logger.info(f"\nDirect SQLite access to: {db_path}")
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     for table in ["measurement", "observation", "condition_occurrence"]:
         try:
             cursor.execute(f"SELECT * FROM {table} WHERE person_id = ?", (person_id,))
             rows = cursor.fetchall()
-            print(f"{table.title()} (direct): {rows}")
+            logger.info(f"{table.title()} (direct): {rows}")
         except Exception as e:
-            print(f"Error querying {table}: {e}")
+            logger.error(f"Error querying {table}: {e}")
     conn.close()
 
 def test_custom_concepts_access():
     person_id = 758718
     db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../src/db/omop_cdm.db'))
-    print(f"\nTesting access for custom concepts for person_id={person_id}\n")
+    logger.info(f"\nTesting access for custom concepts for person_id={person_id}\n")
     # Group concepts by domain
     concepts_by_domain = {"Measurement": [], "Observation": [], "Condition": []}
     for key, val in ALL_DEFINITIONS.items():
@@ -59,7 +62,7 @@ def test_custom_concepts_access():
         if not concepts:
             continue
         concept_key, concept_id = concepts[0]
-        print(f"Domain: {domain}, Concept: {concept_key}, Concept ID: {concept_id}")
+        logger.info(f"Domain: {domain}, Concept: {concept_key}, Concept ID: {concept_id}")
         if domain == "Measurement":
             result = db.get_patient_measurements(person_id, [concept_id])
         elif domain == "Observation":
@@ -68,7 +71,7 @@ def test_custom_concepts_access():
             result = db.get_patient_conditions(person_id, [concept_id])
         else:
             result = None
-        print(f"utils.db result: {result}")
+        logger.info(f"utils.db result: {result}")
         # Direct SQLite access
         table = domain.lower() if domain != "Condition" else "condition_occurrence"
         conn = sqlite3.connect(db_path)
@@ -78,9 +81,9 @@ def test_custom_concepts_access():
                 ("measurement_concept_id" if domain=="Measurement" else "observation_concept_id" if domain=="Observation" else "condition_concept_id")+
                 " = ?", (person_id, concept_id))
             rows = cursor.fetchall()
-            print(f"Direct DB result: {rows}\n")
+            logger.info(f"Direct DB result: {rows}\n")
         except Exception as e:
-            print(f"Error querying {table}: {e}\n")
+            logger.error(f"Error querying {table}: {e}\n")
         conn.close()
 
 def main():

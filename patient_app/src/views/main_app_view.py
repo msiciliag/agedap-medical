@@ -5,6 +5,9 @@ from app_config import (
 )
 from api_client.base_client import BaseClient
 from utils import db, omop
+import logging
+
+logger = logging.getLogger(__name__)
 
 def build_services_page_content(page: ft.Page):
     service_tiles = []
@@ -32,7 +35,7 @@ def build_services_page_content(page: ft.Page):
         except ValueError:  
             description = f"Error: Invalid response format from {service_key} service."
         except Exception as e:
-            print(f"An unexpected error occurred with {service_key} service: {e}, possibly due to network issues or service unavailability.")
+            logger.error(f"An unexpected error occurred with {service_key} service: {e}, possibly due to network issues or service unavailability.")
             description = f"Error: An unexpected issue occurred with {service_key} service, possibly due to network issues or service unavailability."
         
 

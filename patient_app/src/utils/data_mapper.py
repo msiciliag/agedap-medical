@@ -63,17 +63,17 @@ def transform_bundle_to_omop(bundle, patient_id):
     
     for entry in bundle.entry or []:
         if not hasattr(entry, "resource") or entry.resource is None:
-            print("Skipping entry with no resource")
+            logger.info("Skipping entry with no resource")
             continue
         resource = entry.resource
         if resource is None:
             logger.warning("Entry resource is None, skipping.")
             continue
-        print(f"Processing resource: {resource.id}")
-        print(resource.code.coding[0].code if hasattr(resource, "code") and resource.code else "No code available")
+        logger.info(f"Processing resource: {resource.id}")
+        logger.info(resource.code.coding[0].code if hasattr(resource, "code") and resource.code else "No code available")
         definition = get_definition_by_source_value(resource.code.coding[0].code) if hasattr(resource, "code") and resource.code else None
         resource_type = definition.get("domain") if definition else None
-        print(f"Processing resource of type: {resource_type}")
+        logger.info(f"Processing resource of type: {resource_type}")
 
         if resource_type == 'Observation':
             omop_resource = map_observation_to_omop(resource, patient_id)

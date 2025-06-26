@@ -6,6 +6,9 @@ from app_config import (
 )
 from utils import fhir, db
 from utils.data_mapper import transform_patient, transform_bundle_to_omop
+import logging
+
+logger = logging.getLogger(__name__)
 
 def build_config_page_content(page: ft.Page, is_initial_setup=False):
     session_patient_id = page.client_storage.get(SESSION_PATIENT_ID_KEY)
@@ -67,9 +70,9 @@ def build_config_page_content(page: ft.Page, is_initial_setup=False):
                 save_button.disabled = False
                 page.update()
                 return
-            print(f"Fetched patient: {patient} from {selected_hospital_name}")
+            logger.info(f"Fetched patient: {patient} from {selected_hospital_name}")
             patient_data = fhir.get_patient_data_dict(patient)
-            print(f"Fetched patient data: {patient_data}")
+            logger.info(f"Fetched patient data: {patient_data}")
             dob = patient_data.get("date_of_birth")
             if isinstance(dob, date):
                 patient_data["date_of_birth"] = dob.isoformat()
@@ -79,26 +82,26 @@ def build_config_page_content(page: ft.Page, is_initial_setup=False):
             page.client_storage.set(SESSION_HOSPITAL_URL_KEY, url)
             page.client_storage.set(NAME_KEY, patient_data.get("name", "N/A"))
 
-            print(f"Saving patient data: {patient_data}")
+            logger.info(f"Saving patient data: {patient_data}")
             omop_person = transform_patient(patient_data, current_patient_id)
-            print(f"Transformed OMOP person: {omop_person}")
+            logger.info(f"Transformed OMOP person: {omop_person}")
             db.create_or_update_person(omop_person)
 
             data_bundles = fhir.load_fhir_bundles(current_patient_id)
-            print(f"Loaded (but not saved) {len(data_bundles)} FHIR bundles for patient {current_patient_id}")
+            logger.info(f"Loaded (but not saved) {len(data_bundles)} FHIR bundles for patient {current_patient_id}")
             #transform each bundle into OMOP resources and save them
             for bundle in data_bundles:
-                print(f"Processing bundle: {bundle['filename']}")
+                logger.info(f"Processing bundle: {bundle['filename']}")
                 omop_resources = transform_bundle_to_omop(bundle['bundle'], current_patient_id)
-                print(f"Transformed {len(omop_resources)} OMOP resources from bundle {bundle['filename']}")
-                print(omop_resources)
+                logger.info(f"Transformed {len(omop_resources)} OMOP resources from bundle {bundle['filename']}")
+                logger.info(omop_resources)
                 for resource in omop_resources:
                     db.create_or_update_resource(resource)
 
             page.go("/main")
 
         except Exception as ex:
-            print(f"Error fetching or saving patient data: {ex}")
+            logger.error(f"Error fetching or saving patient data: {ex}")
             status_text.value = f"Error: An unexpected error occurred. Check logs."
             status_text.color = ft.Colors.RED
             save_button.disabled = False

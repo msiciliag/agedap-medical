@@ -2,7 +2,8 @@ import flet as ft
 from app_config import APP_LEVEL_STORAGE_KEYS 
 from navigation import route_change_handler, view_pop_handler
 from app_init import initialize_application
-
+import logging
+logger = logging.getLogger(__name__)
 
 def main(page: ft.Page):
     page.title = "AI HealthVault"
@@ -20,7 +21,7 @@ def main(page: ft.Page):
     page.on_route_change = lambda route_event: route_change_handler(page, route_event.route)
     page.on_view_pop = lambda view_pop_event: view_pop_handler(page, view_pop_event)
 
-    print("App starting...")
+    logger.info("App starting...")
     page.go("/login")
 
 if __name__ == "__main__":

@@ -1,6 +1,9 @@
 from concrete.ml.deployment import FHEModelClient
 from api_client.key_manager import KeyManager
 import requests
+import logging
+
+logger = logging.getLogger(__name__)
 
 class BaseClient:
     """
@@ -10,7 +13,7 @@ class BaseClient:
     """
 
     def __init__(self, base_url, fhe_directory, key_directory):
-        """dwad
+        """
         Initialize the API client with the base URL and FHE model client.
 
         :param base_url: The base URL of the REST API.
@@ -30,7 +33,7 @@ class BaseClient:
         :return: Service name as a string.
         :raises ValueError: If the response format is unexpected.
         """
-        print(f"{self.base_url}/additional_service_info")
+        logger.info(f"Requesting service name from {self.base_url}/additional_service_info")
         response = requests.get(f"{self.base_url}/additional_service_info")
         response.raise_for_status()
         data = response.json()
@@ -70,7 +73,7 @@ class BaseClient:
         :return: Model requirements and metadata.
         :raises ValueError: If the response format is unexpected.
         """
-        print(f"Requesting additional service info from {self.base_url}/additional_service_info")
+        logger.info(f"Requesting additional service info from {self.base_url}/additional_service_info")
         response = requests.get(f"{self.base_url}/additional_service_info")
         response.raise_for_status()
         metadata = response.json()
@@ -103,12 +106,12 @@ class BaseClient:
 
         response = self.client.deserialize_decrypt_dequantize(response.content)
         label_meanings = self._get_label_meanings()
-        print (f"Response: {response}, Label Meanings: {label_meanings}")
+        logger.info(f"Response: {response}, Label Meanings: {label_meanings}")
 
         if response[0][0] > response[0][1]:
             prediction_result = 0
         else:
             prediction_result = 1
         prediction_label = label_meanings.get(str(prediction_result))
-        print(f"Prediction Result: {prediction_result}, Label: {prediction_label}")
+        logger.info(f"Prediction Result: {prediction_result}, Label: {prediction_label}")
         return prediction_label == "Risk"

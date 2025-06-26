@@ -1,7 +1,6 @@
 """
 Application initialization module - Updated for new three-layer architecture.
 """
-import os
 import sys
 from pathlib import Path
 

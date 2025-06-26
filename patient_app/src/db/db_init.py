@@ -17,7 +17,7 @@ class OMOPSchemaManager:
     def __init__(self):
         self.database_url = os.environ.get(
             "DATABASE_URL", 
-            "sqlite:////root/agedap-medical/patient_app/src/db/omop_cdm.db"
+            "sqlite:///patient_app/src/db/omop_cdm.db"
         )
         self.engine = create_engine(
             self.database_url,
